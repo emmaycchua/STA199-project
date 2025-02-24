@@ -1,0 +1,36 @@
+---
+title: Add project title here
+subtitle: Add project subtitle here (or remove this field)
+execute:
+  echo: true
+---
+
+Add 1-3 sentence project abstract here.
+
+## Introduction and data
+
+This section includes an introduction to the project motivation, data, and research question.
+Describe the data and definitions of key variables.
+It should also include some exploratory data analysis.
+All of the EDA won’t fit in the paper, so focus on the EDA for the response variable and a few other interesting variables and relationships.
+
+## Methodology
+
+This section includes a brief description of your analysis process.
+Explain the reasoning for the types of analyses you do, exploratory, inferential, or modeling.
+If you’ve chosen to do inference, make sure to include a justification for why that inferential approach is appropriate.
+If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions.
+Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
+
+## Results
+
+This is where you will discuss your overall finding and describe the key results from your analysis.
+The goal is not to interpret every single element of an output shown, but instead to address the research questions, using the interpretations to support your conclusions.
+Focus on the variables that help you answer the research question and that provide relevant context for the reader.
+
+## Discussion
+
+In this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions.
+In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved.
+Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here.
+Lastly, this section will include ideas for future work.

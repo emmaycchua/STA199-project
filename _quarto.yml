@@ -1,0 +1,39 @@
+project:
+  type: website
+  output-dir: docs
+  resources:
+    - presentation.pdf
+
+author: 
+  - name: Name of team member 1
+    affiliation: Team name
+  - name: Name of team member 2
+    affiliation: Team name
+  - name: Name of team member 3
+    affiliation: Team name
+  - name: Name of team member 4
+    affiliation: Team name
+
+website:
+  navbar:
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Presentation
+        href: presentation.pdf  
+      - text: Proposal
+        href: proposal.qmd
+      - text: About
+        href: about.qmd
+      - text: Contract
+        href: contract.qmd
+    right:
+      - icon: file-play-fill
+        href: "Add link to video here"
+      - icon: github
+        href: https://github.com/sta199-s25/project-template
+
+format:
+  html:
+    theme: default
+    toc: true
