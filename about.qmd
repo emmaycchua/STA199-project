@@ -2,7 +2,8 @@
 title: Meet the team
 ---
 
-This project was developed by hello For [STA 199: Introduction to Data Science and Statistical Thinking](https://sta199-s25.github.io/) at Duke University.
+This project was developed by **\[STA1NANA]** For [STA 199: Introduction to Data Science and Statistical Thinking](https://sta199-s25.github.io/) at Duke University.
+
 The team is comprised of the following team members.
 
 -   Team member 1: One sentence description of Team member 1 (e.g., year, major, etc.).
