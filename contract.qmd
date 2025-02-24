@@ -23,11 +23,11 @@ All team members can refer to this document throughout the semester.
 
 -   What are your team goals for this project?
 
-Discuss as a team and add your response here.
+Getting a high score, learning more about a topic of interest, getting confident with using R.
 
 -   What do you want to accomplish? What skills do you want to develop or refine?
 
-Discuss as a team and add your response here.
+Improving data visualization and interpretation skills.
 
 # Expectations
 
@@ -35,21 +35,21 @@ Discuss as a team and add your response here.
 
 -   Meeting times: Identify a 1 - 2 hour weekly block outside of lab where the team can meet to work on assignments. All team members should block off this time on their calendar in case the team needs to meet to work on the project. Note: If you are unable to find a weekly time when the team can meet, briefly outline a plan to work on assignments outside of lab.
 
-Discuss as a team and add your response here.
+Fridays 10:30-11:30am
 
 -   Meeting location: Identify how or where the team will meet to work together (e.g. in-person, Zoom, Facetime, Google Hangouts). Be sure every member is able to access the in-person and/or virtual meeting space.
 
-Discuss as a team and add your response here.
+Zoom
 
 ## Communication
 
 -   Method of communication: Identify the team's primary method of communication outside of meetings (e.g. GroupMe, Slack, text messages, etc.). Be sure all members are able to access the team's chosen communication platform.
 
-Discuss as a team and add your response here.
+Text messages
 
 -   Notifying team members: How should someone notify the other members if they are unable to attend lab or a scheduled team meeting?
 
-Discuss as a team and add your response here.
+Text
 
 ## Workflow
 
@@ -57,23 +57,23 @@ While it's not productive to divvy up the entire project work at the beginning a
 
 -   By when should everyone have their portion of the work completed? *Keep in mind your team will want to have time to review each portion before turning it in to make sure all pieces make sense together and any writing is cohesive.*
 
-Discuss as a team and add your response here.
+Text when you're done, Sunday afternoon 5pm.
 
 -   How should team members communicate if they're struggling with the portion of the work assigned to them?
 
-Discuss as a team and add your response here.
+Just text!
 
 # Policies & procedures
 
 What rules can you agree on to help you meet your goals and expectations?
 
-Discuss as a team and add your response here.
+Communicate clearly and reply to messages by the end of the day (unless it's a night text), even if it's just reacting to a message!
 
 # Consequences
 
 How will you address non-performance in regard to these goals, expectations, policies and procedures?
 
-Discuss as a team and add your response here.
+We'll have a group discussion about it
 
 # Additional items
 
@@ -85,12 +85,12 @@ Discuss as a team and add your response here.
 
 We share these goals and expectations, and agree to these policies, procedures, and consequences.
 
-Team member name:
+Team member name: Ellie Armstrong
 
-Team member name:
+Team member name: Stephanie Sensel
 
-Team member name:
+Team member name: Nikki Caparrelli
 
-Team member name:
+Team member name: Emma Chua
 
 ...
