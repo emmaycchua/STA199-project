@@ -18,8 +18,7 @@ The source of the data is the Duke Lemur Center Database.
 The dataset has been collected by researchers at the Duke Lemur Center since 1966.
 This dataset was last updated in February 2019 to include recent biological samples and life history data on current lemurs at the center.
 
-There are 3627 observations (lemurs) of 27 different taxa, that all reside at the Duke Lemur Center.
-The variables include ancestry, reproduction, longecity and body mass.
+There are 3627 observations, which each represent a differen lemur that has resided at the Duke Lemur Center. Basic information about the lemur's species, birth, age, parents, and offspring are provided.
 
 ## Research question
 
@@ -28,9 +27,9 @@ Research Question: How do lemurs’ birth circumstances, including the mother’
 Our research investigates life history outcomes for lemurs born to mothers of various ages in captivity and in the wild.
 Lemurs born in the wild are expected to have been born to younger mothers, on average.
 Lifespan and number of known offspring are expected to be higher, on average, for lemurs born in captivity.
-Lemurs with older mothers are expected to have lower lifespans and fewer offspring.
+Lemurs with older mothers are expected to have lower lifespans and fewer offspring. The variable types we will use are as follows:
 
--   Categorical: Birth Setting (`Birth_Type`)
+-   Categorical: Birth Type (`Birth_Type`)
 -   Quantitative: Mother’s Age at Birth (`Dam_AgeAtConcep_y`), Age at Death (`AgeAtDeath_y`), Number of Known Offspring (`N_known_offspring`)
 
 ## Glimpse of data
