@@ -57,6 +57,8 @@ The variables of interest are the year, occupation, observation categories, how 
 
 -   Occupation is categorical, gender is categorical, and earnings is quantitative.
 
+- Our target population would be women in the United States and anyone interested in pay gaps in the U.S. (so, essentially, the average working American).
+
 
 ## Glimpse of data
 
