@@ -14,16 +14,21 @@ library(tidyverse)
 ## Introduction and data
 
 -   Identify the source of the data.
-
+    -   The source of the data is the Duke Lemur Center Database.
 -   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
-
+    -   The dataset has been collected by researchers at the Duke Lemur Center since 1966. This dataset was last updated in February 2019 to include recent biological samples and life history data on current lemurs at the center.
 -   Write a brief description of the observations.
+    -   There are 3627 observations (lemurs) of 27 taxa, that all reside at the Duke Lemur Center. The variables include ancestry, reproduction, longecity and body mass.
 
 ## Research question
 
 -   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
+    -   How do lemurs’ birth circumstances, including the mother’s age at birth and the captive or wild birth setting, influence life outcomes, such as age at death and number of known offspring?
 -   A description of the research topic along with a concise statement of your hypotheses on this topic.
+    -   Our research investigates life history outcomes for lemurs born to mothers of various ages in captivity and in the wild. Lemurs born in the wild are expected to have been born to younger mothers, on average. Lifespan and number of known offspring are expected to be higher, on average, for lemurs born in captivity. Lemurs with older mothers are expected to have lower lifespans and fewer offspring.
 -   Identify the types of variables in your research question. Categorical? Quantitative?
+    -   Categorical: Birth setting
+    -   Quantitative: Mother’s Age at Birth, Age at Death, Number of Known Offspring
 
 ## Glimpse of data
 
