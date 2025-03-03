@@ -18,7 +18,8 @@ The source of the data is the Duke Lemur Center Database.
 The dataset has been collected by researchers at the Duke Lemur Center since 1966.
 This dataset was last updated in February 2019 to include recent biological samples and life history data on current lemurs at the center.
 
-There are 3627 observations, which each represent a differen lemur that has resided at the Duke Lemur Center. Basic information about the lemur's species, birth, age, parents, and offspring are provided.
+There are 3627 observations (lemurs) of 27 taxa, that all reside at the Duke Lemur Center.
+The variables include ancestry, reproduction, longecity and body mass.
 
 ## Research question
 
@@ -27,10 +28,10 @@ Research Question: How do lemurs’ birth circumstances, including the mother’
 Our research investigates life history outcomes for lemurs born to mothers of various ages in captivity and in the wild.
 Lemurs born in the wild are expected to have been born to younger mothers, on average.
 Lifespan and number of known offspring are expected to be higher, on average, for lemurs born in captivity.
-Lemurs with older mothers are expected to have lower lifespans and fewer offspring. The variable types we will use are as follows:
+Lemurs with older mothers are expected to have lower lifespans and fewer offspring.
 
--   Categorical: Birth Type (`Birth_Type`)
--   Quantitative: Mother’s Age at Birth (`Dam_AgeAtConcep_y`), Age at Death (`AgeAtDeath_y`), Number of Known Offspring (`N_known_offspring`)
+-   Categorical: Birth setting
+-   Quantitative: Mother’s Age at Birth, Age at Death, Number of Known Offspring
 
 ## Glimpse of data
 
@@ -48,10 +49,9 @@ glimpse(lemurs_2019)
 
 -   All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor.
 
--   There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation).
-The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation and the gender split, the proportion of female workers, total earnings and the gender split, and the percentage of a male wage that a woman earns.
+-   There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation). The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation and the gender split, the proportion of female workers, total earnings and the gender split, and the percentage of a male wage that a woman earns.
 
-- Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+-   Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 ## Research question
 
@@ -60,9 +60,6 @@ The variables of interest are the year, occupation, observation categories, how 
 -   The gender pay gap has always been a relevant issue for women seeking equal workplace rights. Given the current political state and changes to DEI policies, this topic is crucial to understand and address.Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is. We are also interested in how pay gaps vary within specific job categories (such as business). We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
 
 -   Occupation is categorical, gender is categorical, and earnings is quantitative.
-
-- Our target population would be women in the United States and anyone interested in pay gaps in the U.S. (so, essentially, the average working American).
-
 
 ## Glimpse of data
 

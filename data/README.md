@@ -35,7 +35,18 @@ Data dictionary courtesy of the Duke Lemur Center Database (2019).
 - `N_known_offspring`: Number of offspring the individual is known to have produced.  There may be additional offspring for this individual if they were born at another institution or if this individual is a possible, rather than known, parent.
 ...
 
-## Dataset 2: `name_of_data_file`
+## Dataset 2: `jobs_gender`
 
-- `variable_name`: description
+- `year`: Year
+- `occupation`: Specific job/career
+- `major_category`: Broad category of occupation
+- `minor_category`: Fine category of occupation
+- `total_workers`: Total estimated full-time workers > 16 years old
+- `workers_male`: Estimated MALE full-time workers > 16 years old
+- `workers_female`:	Estimated FEMALE full-time workers > 16 years old
+- `percent_female`:	The percent of females for specific occupation
+- `total_earnings`: Total estimated median earnings for full-time workers > 16 years old
+- `total_earnings_male`: Estimated MALE median earnings for full-time workers > 16 years old
+- `total_earnings_female`: Estimated FEMALE median earnings for full-time workers > 16 years old
+- `wage_percent_of_male`: Female wages as percent of male wages - NA for occupations with small sample size
 ...
