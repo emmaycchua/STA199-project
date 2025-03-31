@@ -14,6 +14,18 @@ Describe the data and definitions of key variables.
 It should also include some exploratory data analysis.
 All of the EDA won’t fit in the paper, so focus on the EDA for the response variable and a few other interesting variables and relationships.
 
+
+The gender pay gap has always been a relevant issue for women seeking equal workplace rights. Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective. Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is. We are interested in how pay gaps vary across time from 2013 to 2016 and within specific major and minor job categories, such as the Management, Business, and Financial sector. We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career. Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated occupations? We will primarily consider the variables of earnings, occupation type, and gender representation in the workforce from 2013 to 2016.
+
+All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor. There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation). The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation, the proportion of female workers, total earnings, and the percentage of a male wage that a woman earns. Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings. Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+
+```{r}
+#| label: load-data-jobs-gender
+library(tidyverse)
+jobs_gender <- read_csv("data/jobs_gender.csv")
+glimpse(jobs_gender)
+```
+
 ## Methodology
 
 This section includes a brief description of your analysis process.
