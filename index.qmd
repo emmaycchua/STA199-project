@@ -26,6 +26,8 @@ jobs_gender <- read_csv("data/jobs_gender.csv")
 glimpse(jobs_gender)
 ```
 
+
+
 ## Methodology
 
 This section includes a brief description of your analysis process.
