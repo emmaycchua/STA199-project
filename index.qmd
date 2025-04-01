@@ -84,6 +84,16 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
+```{r}
+#| label: scatterplot-wage-percentage-male
+#| fig-asp: 1
+
+jobs_gender |>
+  ggplot(aes(x = year, y = wage_percent_of_male, color = major_category)) +
+  geom_jitter()
+
+```
+
 ## Methodology
 
 This section includes a brief description of your analysis process.
