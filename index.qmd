@@ -1,6 +1,6 @@
 ---
-title: Add project title here
-subtitle: Add project subtitle here (or remove this field)
+title: Differences in the Gender Pay Gap Across Male and Female-Dominated Occupation and Workplaces
+subtitle: 2013 and 2016 trends in wages and workplace representation
 execute:
   echo: true
 ---
@@ -8,11 +8,6 @@ execute:
 Add 1-3 sentence project abstract here.
 
 ## Introduction and data
-
-This section includes an introduction to the project motivation, data, and research question.
-Describe the data and definitions of key variables.
-It should also include some exploratory data analysis.
-All of the EDA won’t fit in the paper, so focus on the EDA for the response variable and a few other interesting variables and relationships.
 
 The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
 Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective.
@@ -23,8 +18,7 @@ Our research question asks, to what extent does the gender pay gap vary between 
 We will primarily consider the variables of earnings, occupation type, and gender representation in the workforce from 2013 to 2016.
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
-Bureau of Labor through the U.S.
-Census.
+Bureau of Labor through the U.S. Census.
 There are 2089 observations total, with 12 columns.
 Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation).
 The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation, the proportion of female workers, total earnings, and the percentage of a male wage that a woman earns.
@@ -40,8 +34,9 @@ Considering that this data was scrubbed of any identifying factors aside from ge
 Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 ```{r}
-#| label: load-data-jobs-gender
+#| label: load-packages
 library(tidyverse)
+library(tidymodels)
 jobs_gender <- read_csv("data/jobs_gender.csv")
 glimpse(jobs_gender)
 ```
@@ -54,7 +49,7 @@ jobs_gender <- jobs_gender |>
 # mutating percent_female to be displayed as a decimal
     percent_female = (percent_female * 0.01),
 # mutating wage_percent_of_male to be displayed as a decimal
-    wage_percent_of_male = (wage_percent_of_male * 0.01),
+    wage_percent_of_male = (wage_percent_of_male * 0.01)
   ) |>
   rename(
 # renaming total_earnings_male to median_earnings_male to be more clear
@@ -69,19 +64,21 @@ jobs_gender <- jobs_gender |>
 ```{r}
 #| label: creating-new-variables
 jobs_gender <- jobs_gender |>
+# omit all observations with NA values.
+  na.omit(jobs_gender) |>
   mutate(
 # creating wage_percent_of_female 
     wage_percent_of_female = (1 - wage_percent_of_male),
-# creating median_earnings_gap to measure the difference between male and female wages. If the value is greater than zero, males tend to be paid more in their position.
-    median_earnings_gap = (median_earnings_male - median_earnings_female),
+# creating median_earnings_gap_prop to measure the proportional difference between male and female wages. If the value is greater than zero, males tend to be paid more in their position.
+    median_earnings_gap_prop = (median_earnings_male - median_earnings_female) / median_earnings_female,
 # calculate percentage of male workers in each occupation
     percent_male = (1 - percent_female),
-# calculate perc_workforce_gap to calculate how much above or below the male employment is from a "middle ground" of 0.5.
-    perc_workforce_gap = percent_male - 0.5,
+# calculate workforce_gap_prop to calculate the proportional difference in number of male to female workers.
+    workforce_gap_prop = (workers_male - workers_female) / total_workers,
 # create male_dom_workforce as a binary factor where "Yes" means that there are more male workers than female workers, and "No" when there are more female workers.
     male_dom_workforce = as.factor(if_else(
       workers_male > workers_female, "Yes", "No")),
-# create male_dom_earnings as a binary factor where "Yes" means that there are  male workers tend to be paid more than female workers, and "No" when female workers are usually paid more.
+# create male_dom_earnings as a binary factor where "Yes" means that male workers tend to be paid more than female workers, and "No" when female workers are usually paid more.
     male_dom_earnings = as.factor(if_else(
       median_earnings_male > median_earnings_female, "Yes", "No"))
     )
@@ -94,6 +91,73 @@ Explain the reasoning for the types of analyses you do, exploratory, inferential
 If you’ve chosen to do inference, make sure to include a justification for why that inferential approach is appropriate.
 If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions.
 Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
+
+med_earnings_gap by male_dom_workforce
+Logistic regression model?
+med_earnings_gap by perc_male_workforce colored by year
+Scatterplot
+Linear regression model
+
+```{r}
+#| label: earnings-workforce-binary-visualization
+ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Relationship between majority-male workforce and gender pay gap",
+    x = "Majority-male workforce",
+    y = "Count",
+    fill = "Median male wage higher than female"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: earnings-gap-workforce-gap-years
+jobs_gender_year <- jobs_gender |>
+  filter(year == 2013 | year == 2016) |>
+  mutate(year = as.factor(year))
+
+ggplot(jobs_gender_year, aes(x = workforce_gap_prop, y = wage_percent_of_male, color = year)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Relationship between gender differences in workforce and wage gaps",
+    x = "Proportion of male workforce that is greater than the female workforce",
+    y = "Female wages as percent of male wages",
+    color = "Year"
+  ) +
+  theme_minimal()
+```
+```{r}
+#| label: earnings-gap-workforce-gap-years-linear
+earnings_workforce_gaps_fit <- linear_reg() |>
+  fit(wage_percent_of_male ~ workforce_gap_prop, data = jobs_gender)
+tidy(earnings_workforce_gaps_fit)
+glance(earnings_workforce_gaps_fit)
+```
+
+```{r}
+#| label: earnings-workforce-logistic-reg
+ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Relationship between majority-male workforce and gender pay gap",
+    x = "Majority-male workforce",
+    y = "Count",
+    fill = "Median male wage higher than female"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: earnings-workforce-logistic-reg-models
+workforce_log_fit <- logistic_reg() |>
+	fit(male_dom_workforce ~ wage_percent_of_male, data = jobs_gender)
+earnings_log_fit <- logistic_reg() |>
+	fit(male_dom_earnings ~ workforce_gap_prop, data = jobs_gender)
+tidy(earnings_log_fit)
+tidy(workforce_log_fit)
+```
 
 ## Results
 
