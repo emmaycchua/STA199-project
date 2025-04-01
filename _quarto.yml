@@ -5,14 +5,10 @@ project:
     - presentation.pdf
 
 author: 
-  - name: Name of team member 1
-    affiliation: Team name
-  - name: Name of team member 2
-    affiliation: Team name
-  - name: Name of team member 3
-    affiliation: Team name
-  - name: Name of team member 4
-    affiliation: Team name
+  - name: Ellie Armstrong
+  - name: Nikki Caparrelli
+  - name: Emma Chua
+  - name: Stephanie Sensel
 
 website:
   navbar:

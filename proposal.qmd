@@ -1,5 +1,5 @@
 ---
-title: Add project title here
+title: STA1NANA Project Proposals
 subtitle: Proposal
 ---
 
@@ -45,21 +45,26 @@ glimpse(lemurs_2019)
 
 ## Introduction and data
 
--   Identify the source of the data.
+-   The data comes from the Census Bureau and the Bureau of Labor.
 
--   State when and how it was originally collected (by the original data curator, not necessarily how you found the data).
+-   All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor.
 
--   Write a brief description of the observations.
+-   There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation). The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation and the gender split, the proportion of female workers, total earnings and the gender split, and the percentage of a male wage that a woman earns.
+
+-   Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 ## Research question
 
--   A well formulated research question. (You may include more than one research question if you want to receive feedback on different ideas for your project. However, one per data set is required.)
--   A description of the research topic along with a concise statement of your hypotheses on this topic.
--   Identify the types of variables in your research question. Categorical? Quantitative?
+-   To what extent does the gender pay gap vary between male-dominated and female-dominated occupations? There are 3 variables: earning, occupation, and gender (category can be used as well)
+
+-   The gender pay gap has always been a relevant issue for women seeking equal workplace rights. Given the current political state and changes to DEI policies, this topic is crucial to understand and address.Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is. We are also interested in how pay gaps vary within specific job categories (such as business). We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
+
+-   Occupation is categorical, gender is categorical, and earnings is quantitative.
 
 ## Glimpse of data
 
 ```{r}
 #| label: load-data-2
-
+jobs_gender <- read_csv("data/jobs_gender.csv")
+glimpse(jobs_gender)
 ```
