@@ -22,7 +22,7 @@ There are 2089 observations total, with 12 columns.
 Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation).
 The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation, the proportion of female workers, total earnings, and the percentage of a male wage that a woman earns.
 Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
-[**We have also created a numerical variable of perc_male_earnings that measures the percentage of total workforce earnings that are from male employees.**]{.underline} We are also creating the variable median_earnings_gap to measure the difference between male and female wages.
+We have also created a numerical variable of perc_male_earnings that measures the percentage of total workforce earnings that are from male employees. We are also creating the variable median_earnings_gap to measure the difference between male and female wages.
 If the value is greater than zero, males tend to be paid more in their positions.
 We also added variables that simply transform columns to provide more information and make data visualization and manipulation easier.
 One of those is percent_male which subtracts the percentage of female employees from 1 to calculate the percentage of male employees.
@@ -181,6 +181,7 @@ wages_female_year_fit <- linear_reg() |>
 tidy(wages_female_year_fit)
 ```
 $$\hat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce + 0.004 \times year$$
+
 Based on the linear model above, we predict that female employee wages as a percent of male wages with 0% of the workforce being female and the year of observation being 2013 will be 81.9%, on average. Holding all other variables constant, for every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.2 percentage points. Holding all other variables constant, for observations noted in 2016 as opposed to 2013, we expect the female wage as a percent of male wage to be higher, on average, by 0.4 percentage points. 
 
 ```{r}
@@ -204,8 +205,9 @@ ggplot(jobs_gender, aes(x = male_dom_earnings, fill = major_category)) +
   ) +
   theme_minimal()
 ```
+
 ```{r}
-#| label: earnings-job-category
+#| label: earnings-job-category-point
 #| fig-width: 10
 ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male, color = major_category)) +
   geom_point(alpha = 0.3) +
@@ -233,7 +235,7 @@ glance(wages_female_jobs_additive)
 Model 3: We created an interactive linear model to predict the female wages as a percent of male wages based on the percentage of the workforce that is female and the major job category.
 
 ```{r}
-#| label: percent-wage-female-linear-model2
+#| label: percent-wage-female-linear-model3
 
 wages_female_jobs_fit_interactive <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
