@@ -5,13 +5,12 @@ execute:
   echo: true
 ---
 
-Add 1-3 sentence project abstract here.
+Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is.
 
 ## Introduction and data
 
 The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
 Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective.
-Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is.
 We are interested in how pay gaps vary across time from 2013 to 2016 and within specific major and minor job categories, such as the Management, Business, and Financial sector.
 We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
 Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated occupations?
@@ -86,12 +85,30 @@ jobs_gender <- jobs_gender |>
 
 ```{r}
 #| label: scatterplot-wage-percentage-male
-#| fig-asp: 1
+#| fig-asp: 0.5
+#| fig-height: 8
+jobs_gender |>
+  ggplot(aes(x = wage_percent_of_male, color = major_category)) +
+  geom_boxplot()
+```
+96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
+```{r}
+#| label: earnings-workforce-binary-visualization
+
+ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Gender pay gaps in majority male workforces",
+    x = "Majority-male workforce",
+    y = "Count",
+    fill = "Median male wage higher than female"
+  ) +
+  theme_minimal()
 
 jobs_gender |>
-  ggplot(aes(x = year, y = wage_percent_of_male, color = major_category)) +
-  geom_jitter()
-
+  count(male_dom_workforce, male_dom_earnings) |>
+  group_by(male_dom_workforce) |>
+  summarize(male_dom_workforce, male_dom_earnings, p = n / sum(n))
 ```
 ```{r}
 #| label: exploratory-data-anaylsis-summary-stats
@@ -138,20 +155,8 @@ Scatterplot
 Linear regression model
 
 ```{r}
-#| label: earnings-workforce-binary-visualization
-ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
-  geom_bar(position = "dodge") +
-  labs(
-    title = "Relationship between majority-male workforce and gender pay gap",
-    x = "Majority-male workforce",
-    y = "Count",
-    fill = "Median male wage higher than female"
-  ) +
-  theme_minimal()
-```
-
-```{r}
 #| label: earnings-gap-workforce-gap-years
+
 jobs_gender_year <- jobs_gender |>
   filter(year == 2013 | year == 2016) |>
   mutate(year = as.factor(year))
