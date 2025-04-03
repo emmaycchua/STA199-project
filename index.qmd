@@ -93,6 +93,35 @@ jobs_gender |>
   geom_jitter()
 
 ```
+```{r}
+#| label: exploratory-data-anaylsis-summary-stats
+#added _yr to the ends to indicate that they're for this function, not the original df.
+
+summary_stats <- jobs_gender |>
+  group_by(major_category, year) |>
+  summarize(
+    median_earnings_yr = median(median_earnings, na.rm = TRUE),
+    median_earnings_male_yr = median(median_earnings_male, na.rm = TRUE),
+    median_earnings_female_yr = median(median_earnings_female, na.rm = TRUE),
+    total_workers_yr = sum(total_workers, na.rm = TRUE),  # Summing total workers
+  )
+
+summary_stats
+```
+```{r}
+#| label: histogram-perc-male-and-job-category
+#don't think this one rly makes sense 
+jobs_gender |>
+  ggplot(aes(x = percent_male, color = major_category, fill = major_category)) +
+  geom_histogram()
+```
+```{r}
+#| label: boxplot-workers-gender
+#help
+jobs_gender |>
+  ggplot(aes(x = total_workers, y = workers_male, color = workers_male)) +
+geom_boxplot()
+```
 
 ## Methodology
 
