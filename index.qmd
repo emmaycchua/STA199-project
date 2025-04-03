@@ -91,6 +91,7 @@ jobs_gender |>
   ggplot(aes(x = wage_percent_of_male, color = major_category)) +
   geom_boxplot()
 ```
+
 96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
 ```{r}
 #| label: earnings-workforce-binary-visualization
@@ -180,7 +181,7 @@ wages_female_year_fit <- linear_reg() |>
 
 tidy(wages_female_year_fit)
 ```
-$$\hat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce + 0.004 \times year$$
+$$\widehat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce + 0.004 \times year$$
 
 Based on the linear model above, we predict that female employee wages as a percent of male wages with 0% of the workforce being female and the year of observation being 2013 will be 81.9%, on average. Holding all other variables constant, for every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.2 percentage points. Holding all other variables constant, for observations noted in 2016 as opposed to 2013, we expect the female wage as a percent of male wage to be higher, on average, by 0.4 percentage points. 
 
