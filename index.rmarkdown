@@ -5,6 +5,9 @@ execute:
   echo: true
 ---
 
+
+
+
 Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is.
 
 ## Introduction and data
@@ -31,6 +34,9 @@ Finally, we renamed the total_earnings columns to median_earn,ings given that th
 
 Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
 Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+
+
+
 
 ```{r}
 #| label: load-packages
@@ -91,7 +97,13 @@ jobs_gender |>
   ggplot(aes(x = wage_percent_of_male, color = major_category)) +
   geom_boxplot()
 ```
+
+
+
 96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
+
+
+
 ```{r}
 #| label: earnings-workforce-binary-visualization
 
@@ -111,6 +123,9 @@ jobs_gender |>
   summarize(male_dom_workforce, male_dom_earnings, p = n / sum(n))
 ```
 
+
+
+
 ## Methodology
 
 This section includes a brief description of your analysis process.
@@ -124,6 +139,9 @@ Logistic regression model?
 med_earnings_gap by perc_male_workforce colored by year
 Scatterplot
 Linear regression model
+
+
+
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years
@@ -143,6 +161,7 @@ ggplot(jobs_gender_year, aes(x = workforce_gap_prop, y = wage_percent_of_male, c
   ) +
   theme_minimal()
 ```
+
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
 earnings_workforce_gaps_fit <- linear_reg() |>
@@ -174,6 +193,9 @@ tidy(earnings_log_fit)
 tidy(workforce_log_fit)
 ```
 
+
+
+
 ## Results
 
 This is where you will discuss your overall finding and describe the key results from your analysis.
@@ -186,3 +208,4 @@ In this section you’ll include a summary of what you have learned about your r
 In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved.
 Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here.
 Lastly, this section will include ideas for future work.
+
