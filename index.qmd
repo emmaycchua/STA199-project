@@ -119,11 +119,7 @@ If you’ve chosen to do inference, make sure to include a justification for why
 If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions.
 Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
 
-med_earnings_gap by male_dom_workforce
-Logistic regression model?
-med_earnings_gap by perc_male_workforce colored by year
-Scatterplot
-Linear regression model
+Model 1: We created a linear regression model to predict the female wages as a percent of male wages based on the percent of the workforce that is female and whether the observation year was 2013 or 2016.
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years
@@ -132,12 +128,16 @@ jobs_gender_year <- jobs_gender |>
   filter(year == 2013 | year == 2016) |>
   mutate(year = as.factor(year))
 
-ggplot(jobs_gender_year, aes(x = workforce_gap_prop, y = wage_percent_of_male, color = year)) +
+ggplot(jobs_gender_year, aes(
+  x = percent_female, 
+  y = wage_percent_of_male, 
+  color = year)
+  ) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
     title = "Relationship between gender differences in workforce and wage gaps",
-    x = "Proportion of male workforce that is greater than the female workforce",
+    x = "Percent of workforce that is female",
     y = "Female wages as percent of male wages",
     color = "Year"
   ) +
@@ -145,34 +145,85 @@ ggplot(jobs_gender_year, aes(x = workforce_gap_prop, y = wage_percent_of_male, c
 ```
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
-earnings_workforce_gaps_fit <- linear_reg() |>
-  fit(wage_percent_of_male ~ workforce_gap_prop, data = jobs_gender)
-tidy(earnings_workforce_gaps_fit)
-glance(earnings_workforce_gaps_fit)
+
+wages_female_year_fit <- linear_reg() |>
+  fit(wage_percent_of_male ~ percent_female + year, data = jobs_gender_year)
+
+tidy(wages_female_year_fit)
 ```
+$$\hat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce + 0.004 \times year$$
+Based on the linear model above, we predict that female employee wages as a percent of male wages with 0% of the workforce being female and the year of observation being 2013 will be 81.9%, on average. Holding all other variables constant, for every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.2 percentage points. Holding all other variables constant, for observations noted in 2016 as opposed to 2013, we expect the female wage as a percent of male wage to be higher, on average, by 0.4 percentage points. 
 
 ```{r}
-#| label: earnings-workforce-logistic-reg
-ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
-  geom_bar(position = "dodge") +
+#| label: r2-model1
+glance(wages_female_year_fit)
+```
+$Adjusted~R^2=0.009$means that 0.9% of the variation in female wage as a percent of male wage is explained by percent female workforce and the year.
+
+Model 2: We created an additive linear model to predict the female wages as a percent of male wages based on the percentage of the workforce that is female and the major job category.
+
+```{r}
+#| label: earnings-job-category
+
+ggplot(jobs_gender, aes(x = male_dom_earnings, fill = major_category)) +
+  geom_bar(position = "fill") +
   labs(
-    title = "Relationship between majority-male workforce and gender pay gap",
-    x = "Majority-male workforce",
-    y = "Count",
-    fill = "Median male wage higher than female"
+    title = "Higher median male wages based on job category",
+    x = "Median male wage higher than median female wage",
+    y = "Proportion",
+    fill = "Major job category"
+  ) +
+  theme_minimal()
+```
+```{r}
+#| label: earnings-job-category
+#| fig-width: 10
+ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male, color = major_category)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Relationship between gender differences in workforce and wage 
+gaps by job category",
+    x = "Percent of workforce that is female",
+    y = "Female wages as percent of male wages",
+    color = "Major job category"
   ) +
   theme_minimal()
 ```
 
 ```{r}
-#| label: earnings-workforce-logistic-reg-models
-workforce_log_fit <- logistic_reg() |>
-	fit(male_dom_workforce ~ wage_percent_of_male, data = jobs_gender)
-earnings_log_fit <- logistic_reg() |>
-	fit(male_dom_earnings ~ workforce_gap_prop, data = jobs_gender)
-tidy(earnings_log_fit)
-tidy(workforce_log_fit)
+#| label: percent-wage-female-linear-model2
+
+wages_female_jobs_additive <- linear_reg() |>
+  fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
+
+tidy(wages_female_jobs_additive)
+glance(wages_female_jobs_additive)
 ```
+
+Model 3: We created an interactive linear model to predict the female wages as a percent of male wages based on the percentage of the workforce that is female and the major job category.
+
+```{r}
+#| label: percent-wage-female-linear-model2
+
+wages_female_jobs_fit_interactive <- linear_reg() |>
+  fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
+
+tidy(wages_female_jobs_fit_interactive)
+glance(wages_female_jobs_fit_interactive)
+```
+
+Model 4: We created a logistic model to predict whether the median male wages at a company are higher than the median female wages based on the percentage of the workforce that is female.
+
+```{r}
+#| label: earnings-workforce-logistic-reg-models
+
+earnings_log_fit <- logistic_reg() |>
+	fit(male_dom_earnings ~ percent_female, data = jobs_gender)
+
+tidy(earnings_log_fit)
+```
+$$\log\Big(\frac{\hat{p}}{1-\hat{p}}\Big) = 3.36 + 0.41 \times percent~female~workforce$$
 
 ## Results
 
