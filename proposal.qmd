@@ -47,17 +47,25 @@ glimpse(lemurs_2019)
 
 -   The data comes from the Census Bureau and the Bureau of Labor.
 
--   All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor.
+-   All data was collected between 2013 and 2016 from statistics provided by the U.S.
+    Bureau of Labor.
 
--   There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation). The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation and the gender split, the proportion of female workers, total earnings and the gender split, and the percentage of a male wage that a woman earns.
+-   There are 2089 observations total, with 12 columns.
+    Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation).
+    The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation and the gender split, the proportion of female workers, total earnings and the gender split, and the percentage of a male wage that a woman earns.
 
--   Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+-   Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
+    Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 ## Research question
 
--   To what extent does the gender pay gap vary between male-dominated and female-dominated occupations? There are 3 variables: earning, occupation, and gender (category can be used as well)
+-   To what extent does the gender pay gap vary between male-dominated and female-dominated occupations?
+    There are 3 variables: earning, occupation, and gender (category can be used as well)
 
--   The gender pay gap has always been a relevant issue for women seeking equal workplace rights. Given the current political state and changes to DEI policies, this topic is crucial to understand and address.Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is. We are also interested in how pay gaps vary within specific job categories (such as business). We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
+-   The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
+    Given the current political state and changes to DEI policies, this topic is crucial to understand and address.Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is.
+    We are also interested in how pay gaps vary within specific job categories (such as business).
+    We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
 
 -   Occupation is categorical, gender is categorical, and earnings is quantitative.
 
