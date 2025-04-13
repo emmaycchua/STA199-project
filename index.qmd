@@ -91,11 +91,12 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
-Visualizing the distribution of female wages as a percentage of male wages according to major job categories.
+The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
 
--   The median female wage as a percentage of male wage is the highest for Computer, Engineering, and Science
+-   The median female wage as a percentage of male wage is the highest for Computer, Engineering, and Science. 
 
 -   The median female wage as a percentage of male wage is lowest for Production, Transportation, and Material Moving
+
 
 ```{r}
 #| label: scatterplot-wage-percentage-male
@@ -109,7 +110,8 @@ jobs_gender |>
     according to each major job category",
     x = "Female wages as percent of male wages",
     color = "Major category"
-  )
+  ) +
+  theme_minimal()
 ```
 
 96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
