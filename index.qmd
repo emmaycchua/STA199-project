@@ -50,6 +50,7 @@ glimpse(jobs_gender)
 
 ```{r}
 #| label: mutate-variables-to-decimal-form-and-rename
+#| echo: false
 # mutating percent_female to be displayed as a decimal
 jobs_gender <- jobs_gender |>
   mutate(
@@ -70,6 +71,7 @@ jobs_gender <- jobs_gender |>
 
 ```{r}
 #| label: creating-new-variables
+#|echo: false
 jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
@@ -102,6 +104,7 @@ The following plot visualizes the distribution of female wages as a percentage o
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
 #| fig-height: 8
+#| echo: false
 jobs_gender |>
   ggplot(aes(x = wage_percent_of_male, color = major_category)) +
   geom_boxplot() +
@@ -118,6 +121,7 @@ jobs_gender |>
 
 ```{r}
 #| label: earnings-workforce-binary-visualization
+#| echo: false
 
 ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
   geom_bar(position = "fill") +
@@ -137,6 +141,7 @@ jobs_gender |>
 
 ```{r}
 #| label: exploratory-data-anaylsis-summary-stats
+#| echo: false
 #added _yr to the ends to indicate that they're for this function, not the original df.
 
 summary_stats <- jobs_gender |>
@@ -153,6 +158,7 @@ summary_stats
 
 ```{r}
 #| label: histogram-perc-male-and-job-category
+#| echo: false
 #don't think this one rly makes sense 
 jobs_gender |>
   ggplot(aes(x = percent_male, color = major_category, fill = major_category)) +
@@ -161,6 +167,7 @@ jobs_gender |>
 
 ```{r}
 #| label: boxplot-workers-gender
+#| echo: false
 #help
 jobs_gender |>
   ggplot(aes(x = total_workers, y = workers_male, color = workers_male)) +
@@ -179,6 +186,7 @@ Model 1: We created a linear regression model to predict the female wages as a p
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years
+#| echo: false
 
 jobs_gender_year <- jobs_gender |>
   filter(year == 2013 | year == 2016) |>
@@ -202,6 +210,7 @@ ggplot(jobs_gender_year, aes(
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
+#| echo: false
 
 wages_female_year_fit <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female + year, data = jobs_gender_year)
@@ -217,6 +226,7 @@ Holding all other variables constant, for observations noted in 2016 as opposed 
 
 ```{r}
 #| label: r2-model1
+#| echo: false
 glance(wages_female_year_fit)
 ```
 
@@ -226,6 +236,7 @@ Model 2: We created an additive linear model to predict the female wages as a pe
 
 ```{r}
 #| label: earnings-job-category
+#| echo: false
 
 ggplot(jobs_gender, aes(x = male_dom_earnings, fill = major_category)) +
   geom_bar(position = "fill") +
@@ -241,6 +252,7 @@ ggplot(jobs_gender, aes(x = male_dom_earnings, fill = major_category)) +
 ```{r}
 #| label: earnings-job-category-point
 #| fig-width: 10
+#| echo: false
 ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male, color = major_category)) +
   geom_point(alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE) +
@@ -256,6 +268,7 @@ gaps by job category",
 
 ```{r}
 #| label: percent-wage-female-linear-model2
+#| echo: false
 
 wages_female_jobs_additive <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
@@ -268,6 +281,7 @@ Model 3: We created an interactive linear model to predict the female wages as a
 
 ```{r}
 #| label: percent-wage-female-linear-model3
+#| echo: false
 
 wages_female_jobs_fit_interactive <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
@@ -280,6 +294,7 @@ Model 4: We created a logistic model to predict whether the median male wages at
 
 ```{r}
 #| label: earnings-workforce-logistic-reg-models
+#| echo: false
 
 earnings_log_fit <- logistic_reg() |>
 	fit(male_dom_earnings ~ percent_female, data = jobs_gender)
