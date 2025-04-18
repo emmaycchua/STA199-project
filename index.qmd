@@ -148,9 +148,9 @@ We chose to do an exploratory analysis first to better understand the relationsh
 
 We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`. We did not choose to use `year` as a variable because the scatterplot did not indicate that it could be a promising predictor. We created a scatterplot that shows the female wages as a percent of male wages on the y-axis and the percentage of the workforce that is female on the x-axis with lines to designate the trends based on year (2013 vs. 2016) as we hypothesize that the percentage of the workforce that is female will be a major predictor of wage gaps. 
 
-We created three linear regression models. Our first model is a simple linear regression model that predicts the female wages as a percent of male wages based on the percent of the workforce that is female. Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category. Our third model is an interaction model between the percentage of the workforce that is female and the major job category. EXPLAIN WHY FOR EACH
+We created three linear regression models. Our first model is a simple linear regression model that predicts the female wages as a percent of male wages based on the percent of the workforce that is female. Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category. Our third model is an interaction model between the percentage of the workforce that is female and the major job category. EXPLAIN WHY FOR EACH ----- Ellie
 
-We created two logistic regression models. The fourth model predicts whether the total male earnings are greater than the total female earnings based on whether the workforce is majority male. Our fifth model is an additive model that uses the major job category, and whether the workforce is majority male as predictors. EXPLAIN WHY FOR EACH
+We created two logistic regression models. The fourth model predicts whether the total male earnings are greater than the total female earnings based on whether the workforce is majority male. Our fifth model is an additive model that uses the major job category, and whether the workforce is majority male as predictors. EXPLAIN WHY FOR EACH --- Emma
 
 SHOW HOW WE ARRIVED AT THE FINAL MODEL!!!
 
@@ -262,6 +262,8 @@ tidy(wages_female_jobs_fit_interactive)
 glance(wages_female_jobs_fit_interactive)
 ```
 
+-------------------------
+EMMA:
 Model 4: We created a logistic model to predict whether the median male wages at a company are higher than the median female wages based on the percentage of the workforce that is female.
 
 ```{r}
@@ -269,7 +271,7 @@ Model 4: We created a logistic model to predict whether the median male wages at
 #| echo: false
 
 earnings_log_fit <- logistic_reg() |>
-	fit(male_dom_earnings ~ percent_female, data = jobs_gender)
+	fit(male_dom_earnings ~ male_dom_workforce, data = jobs_gender)
 
 tidy(earnings_log_fit)
 ```
