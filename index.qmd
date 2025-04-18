@@ -149,10 +149,20 @@ If you’ve chosen to do inference, make sure to include a justification for why
 If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions.
 Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
 
+We chose to do an exploratory analysis first to better understand the relationships between variables. We chose to run three analyses to determine which model would be the most effective.
+
+## Results
+
+This is where you will discuss your overall finding and describe the key results from your analysis.
+The goal is not to interpret every single element of an output shown, but instead to address the research questions, using the interpretations to support your conclusions.
+Focus on the variables that help you answer the research question and that provide relevant context for the reader.
+
 Model 1: We created a linear regression model to predict the female wages as a percent of male wages based on the percent of the workforce that is female and whether the observation year was 2013 or 2016.
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years
+#| echo: false
+#| warning: false
 
 jobs_gender_year <- jobs_gender |>
   filter(year == 2013 | year == 2016) |>
@@ -256,12 +266,6 @@ earnings_log_fit <- logistic_reg() |>
 tidy(earnings_log_fit)
 ```
 $$\log\Big(\frac{\hat{p}}{1-\hat{p}}\Big) = 3.36 + 0.41 \times percent~female~workforce$$
-
-## Results
-
-This is where you will discuss your overall finding and describe the key results from your analysis.
-The goal is not to interpret every single element of an output shown, but instead to address the research questions, using the interpretations to support your conclusions.
-Focus on the variables that help you answer the research question and that provide relevant context for the reader.
 
 ## Discussion
 
