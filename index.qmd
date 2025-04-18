@@ -71,7 +71,7 @@ jobs_gender <- jobs_gender |>
 
 ```{r}
 #| label: creating-new-variables
-#|echo: false
+#| echo: false
 jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
