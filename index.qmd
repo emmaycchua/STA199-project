@@ -86,9 +86,12 @@ jobs_gender |>
     title = "Distribution of female wages as percent of male wages 
     according to each major job category",
     x = "Female wages as percent of male wages",
-    color = "Major category"
+    color = "Major category",
+    y = NULL
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(axis.ticks.y = element_blank(),
+  axis.text.y = element_blank())
 ```
 
 ```{r}
@@ -105,7 +108,9 @@ according to each major job category",
     x = "Percent females in the workforce",
     color = "Major category"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  theme(axis.ticks.y = element_blank(),
+  axis.text.y = element_blank())
 ```
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor through the U.S. Census. There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years). 301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year. Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
@@ -181,8 +186,20 @@ ggplot(jobs_gender, aes(x = male_dom_earnings, fill = major_category)) +
 #| label: earnings-gap-workforce-gap-years
 #| echo: false
 #| warning: false
+<<<<<<< HEAD
 
 ggplot(jobs_gender_year, aes(x = percent_female, y = wage_percent_of_male)) +
+=======
+jobs_gender_year <- jobs_gender |>
+  filter(year == 2013 | year == 2016) |>
+  mutate(year = as.factor(year))
+
+ggplot(jobs_gender_year, aes(
+  x = percent_female, 
+  y = wage_percent_of_male, 
+  color = year)
+  ) +
+>>>>>>> 35c7c5ddca8b1289bf29962b1fce097f0548997b
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
