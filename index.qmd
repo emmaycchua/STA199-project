@@ -195,10 +195,8 @@ Model 1: We created a linear regression model to predict the female wages as a p
 ```{r}
 #| label: earnings-gap-workforce-gap-years
 #| echo: false
-<<<<<<< HEAD
 #| warning: false
-=======
->>>>>>> 7087ad51c610ef74ee2e11dc2bb3d999dd3d8c11
+
 
 jobs_gender_year <- jobs_gender |>
   filter(year == 2013 | year == 2016) |>
