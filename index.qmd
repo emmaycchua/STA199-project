@@ -2,7 +2,8 @@
 title: Differences in the Gender Pay Gap Across Male and Female-Dominated Occupation and Workplaces
 subtitle: 2013 and 2016 trends in wages and workplace representation
 execute:
-  echo: true
+  echo: false
+  message: false
 ---
 
 Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is.
@@ -11,43 +12,21 @@ Our research aims to analyze how women are marginalized in various job settings 
 
 The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
 Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective.
-We are interested in how pay gaps vary across time from 2013 to 2016 and within specific major and minor job categories, such as the Management, Business, and Financial sector.
+We are interested in how gender pay gaps vary across time from 2013 to 2016, varying percentages of female representation in the workforce, and specific major job categories, such as the Management, Business, and Financial sector.
 
 We hypothesize that occupations that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
-Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated occupations?
+Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?
 
-We will primarily consider the variables of earnings, occupation type, and gender representation in the workforce from 2013 to 2016.
-
-All data was collected between 2013 and 2016 from statistics provided by the U.S.
-Bureau of Labor through the U.S.
-Census.
-There are 2089 observations total, with 12 columns.
-Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation).
-The variables of interest are the year, occupation, observation categories, how many workers there are in that occupation, the proportion of female workers, total earnings, and the percentage of a male wage that a woman earns.
-
-Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
-
-We have also created a numerical variable of perc_male_earnings that measures the percentage of total workforce earnings that are from male employees.
-We are also creating the variable median_earnings_gap to measure the difference between male and female wages.
-If the value is greater than zero, males tend to be paid more in their positions.
-
-We also added variables that simply transform columns to provide more information and make data visualization and manipulation easier.
-One of those is percent_male which subtracts the percentage of female employees from 1 to calculate the percentage of male employees.
-We also made percent_female and wage_percent_of_male into decimals rather than numbers.
-Finally, we renamed the total_earnings columns to median_earn,ings given that the word "total" was misleading in communicating what the columns represented.
-
-Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
-Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`occupation_major_category`), percentage of females in the workforce (`percent_female`), occupation title (`occupation`), and year of data collection ranging from 2013 to 2016 (`year`).
 
 ```{r}
 #| label: load-packages
+#| echo: false
 library(tidyverse)
 library(tidymodels)
 jobs_gender <- read_csv("data/jobs_gender.csv")
-# original data frame
-glimpse(jobs_gender)
 ```
-
+DELETE VARIABLES WE DIDN'T USE:
 ```{r}
 #| label: mutate-variables-to-decimal-form-and-rename
 #| echo: false
@@ -71,7 +50,7 @@ jobs_gender <- jobs_gender |>
 
 ```{r}
 #| label: creating-new-variables
-#|echo: false
+#| echo: false
 jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
@@ -93,13 +72,10 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
+EDA ADD THESE VISUALIZATIONS / SUMMARIES:
+- Response variable - histogram, percent_wage_male
+
 The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
-
--   The median female wage as a percentage of male wage is the highest for Computer, Engineering, and Science. 
-
--   The median female wage as a percentage of male wage is lowest for Production, Transportation, and Material Moving
-
-
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
@@ -117,32 +93,34 @@ jobs_gender |>
   theme_minimal()
 ```
 
-96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
-
 ```{r}
-#| label: earnings-workforce-binary-visualization
+#| label: scatterplot-workforce-percentage-female
+#| fig-asp: 0.5
+#| fig-height: 8
 #| echo: false
-
-ggplot(jobs_gender, aes(x = male_dom_workforce, fill = male_dom_earnings)) +
-  geom_bar(position = "fill") +
+jobs_gender |>
+  ggplot(aes(x = percent_female, color = major_category)) +
+  geom_boxplot() +
   labs(
-    title = "Gender pay gaps in majority male workforces",
-    x = "Majority-male workforce",
-    y = "Count",
-    fill = "Median male wage higher than female"
+    title = "Distribution of females in workforce 
+according to each major job category",
+    x = "Percent females in the workforce",
+    color = "Major category"
   ) +
   theme_minimal()
-
-jobs_gender |>
-  count(male_dom_workforce, male_dom_earnings) |>
-  group_by(male_dom_workforce) |>
-  summarize(male_dom_workforce, male_dom_earnings, p = n / sum(n))
 ```
 
+All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor through the U.S. Census. There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years). 301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year. Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+
+Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
+
+EDA ADD THESE VISUALIZATIONS / SUMMARIES:
+- Summary statistic - group by male_dom_earnings, count, year
+
+96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
 ```{r}
 #| label: exploratory-data-anaylsis-summary-stats
 #| echo: false
-#added _yr to the ends to indicate that they're for this function, not the original df.
 
 summary_stats <- jobs_gender |>
   group_by(major_category, year) |>
@@ -150,29 +128,14 @@ summary_stats <- jobs_gender |>
     median_earnings_yr = median(median_earnings, na.rm = TRUE),
     median_earnings_male_yr = median(median_earnings_male, na.rm = TRUE),
     median_earnings_female_yr = median(median_earnings_female, na.rm = TRUE),
-    total_workers_yr = sum(total_workers, na.rm = TRUE),  # Summing total workers
+    total_workers_yr = sum(total_workers, na.rm = TRUE)
   )
-
 summary_stats
 ```
 
-```{r}
-#| label: histogram-perc-male-and-job-category
-#| echo: false
-#don't think this one rly makes sense 
-jobs_gender |>
-  ggplot(aes(x = percent_male, color = major_category, fill = major_category)) +
-  geom_histogram()
-```
+We have also transformed column names to provide more information and make data visualization and manipulation easier. We have made percent_female and wage_percent_of_male into decimals rather than percentages.
 
-```{r}
-#| label: boxplot-workers-gender
-#| echo: false
-#help
-jobs_gender |>
-  ggplot(aes(x = total_workers, y = workers_male, color = workers_male)) +
-geom_boxplot()
-```
+Finally, We renamed the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
 
 ## Methodology
 
@@ -195,10 +158,7 @@ Model 1: We created a linear regression model to predict the female wages as a p
 ```{r}
 #| label: earnings-gap-workforce-gap-years
 #| echo: false
-<<<<<<< HEAD
 #| warning: false
-=======
->>>>>>> 7087ad51c610ef74ee2e11dc2bb3d999dd3d8c11
 
 jobs_gender_year <- jobs_gender |>
   filter(year == 2013 | year == 2016) |>
