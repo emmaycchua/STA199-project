@@ -4,9 +4,10 @@ subtitle: 2013-2016 trends in job category and female workforce representation
 execute:
   echo: false
   message: false
+  warning: false
 ---
 
-Our research aims to analyze how women are marginalized in various job settings and categories, specifically regarding how pay gaps fluctuate based on how male-dominated a particular field is.
+Our research aims to analyze how women are marginalized in various job settings, specifically regarding how pay gaps fluctuate based on the type of job and how male-dominated a particular workforce is.
 
 ## Introduction and data
 
@@ -21,15 +22,15 @@ We will primarily consider the variables of female wages as a percent of male wa
 
 ```{r}
 #| label: load-packages
-#| echo: false
 library(tidyverse)
 library(tidymodels)
 jobs_gender <- read_csv("data/jobs_gender.csv")
 ```
+
 DELETE VARIABLES WE DIDN'T USE:
+
 ```{r}
 #| label: mutate-variables-to-decimal-form-and-rename
-#| echo: false
 # mutating percent_female to be displayed as a decimal
 jobs_gender <- jobs_gender |>
   mutate(
@@ -50,7 +51,6 @@ jobs_gender <- jobs_gender |>
 
 ```{r}
 #| label: creating-new-variables
-#| echo: false
 jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
@@ -70,21 +70,18 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
-EDA ADD THESE VISUALIZATIONS / SUMMARIES:
-- Response variable - histogram, percent_wage_male
-
 The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
+
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
 #| fig-height: 8
-#| echo: false
 jobs_gender |>
   ggplot(aes(x = wage_percent_of_male, color = major_category)) +
   geom_boxplot() +
   labs(
-    title = "Distribution of female wages as percent of male wages 
-    according to each major job category",
+    title = "Figure 1: Distribution of female wages as percent of 
+male wages according to each major job category",
     x = "Female wages as percent of male wages",
     color = "Major category",
     y = NULL
@@ -98,12 +95,11 @@ jobs_gender |>
 #| label: scatterplot-workforce-percentage-female
 #| fig-asp: 0.5
 #| fig-height: 8
-#| echo: false
 jobs_gender |>
   ggplot(aes(x = percent_female, color = major_category)) +
   geom_boxplot() +
   labs(
-    title = "Distribution of females in workforce 
+    title = "Figure 2: Distribution of females in workforce 
 according to each major job category",
     x = "Percent females in the workforce",
     color = "Major category"
@@ -113,18 +109,25 @@ according to each major job category",
   axis.text.y = element_blank())
 ```
 
-All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor through the U.S. Census. There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years). 301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year. Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+EDA ADD THESE VISUALIZATIONS / SUMMARIES: - Figure 3: Response variable - histogram, percent_wage_male
+
+All data was collected between 2013 and 2016 from statistics provided by the U.S.
+Bureau of Labor through the U.S.
+Census.
+There are 2089 observations total, with 12 columns.
+Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years).
+301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year.
+Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
+Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
 
-EDA ADD THESE VISUALIZATIONS / SUMMARIES:
-- Summary statistic - group by male_dom_earnings, count, year
+EDA ADD THESE VISUALIZATIONS / SUMMARIES: - Table 1: Summary statistic - group by male_dom_earnings, count, year
 
 96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
+
 ```{r}
 #| label: exploratory-data-anaylsis-summary-stats
-#| echo: false
-
 summary_stats <- jobs_gender |>
   group_by(major_category, year) |>
   summarize(
@@ -136,117 +139,121 @@ summary_stats <- jobs_gender |>
 summary_stats
 ```
 
-We have also transformed column names to provide more information and make data visualization and manipulation easier. We have made percent_female and wage_percent_of_male into decimals rather than percentages.
+We have also transformed column names to provide more information and make data visualization and manipulation easier.
+We have made percent_female and wage_percent_of_male into decimals rather than percentages.
 
 Finally, We renamed the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
 
 ## Methodology
-___________________
+
+------------------------------------------------------------------------
+
 This section includes a brief description of your analysis process.
 Explain the reasoning for the types of analyses you do, exploratory, inferential, or modeling.
 If you’ve chosen to do inference, make sure to include a justification for why that inferential approach is appropriate.
 If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions.
 Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
-___________________
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-We chose to do an exploratory analysis first to better understand the relationships between variables. We created a  bar chart that shows the proportions of workforces that do or do not have a median male wage higher than median female wages that is dodged based on the major job category. EXPLAIN BRIEFLY WHY
+We chose to do an exploratory analysis first to better understand the relationships between variables.
+We created a bar chart that shows the proportions of workforces that do or do not have a median male wage higher than median female wages that is dodged based on the major job category.
+EXPLAIN BRIEFLY WHY
 
-We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`. We did not choose to use `year` as a variable because the scatterplot did not indicate that it could be a promising predictor. We created a scatterplot that shows the female wages as a percent of male wages on the y-axis and the percentage of the workforce that is female on the x-axis with lines to designate the trends based on year (2013 vs. 2016) as we hypothesize that the percentage of the workforce that is female will be a major predictor of wage gaps. 
+We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`.
+We did not choose to use `year` as a variable because the scatterplot did not indicate that it could be a promising predictor.
+We created a scatterplot that shows the female wages as a percent of male wages on the y-axis and the percentage of the workforce that is female on the x-axis with lines to designate the trends based on year (2013 vs. 2016) as we hypothesize that the percentage of the workforce that is female will be a major predictor of wage gaps.
 
-We created three linear regression models. Our first model is a simple linear regression model that predicts the female wages as a percent of male wages based on the percent of the workforce that is female. Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category. Our third model is an interaction model between the percentage of the workforce that is female and the major job category. EXPLAIN WHY FOR EACH ----- Ellie
+We created three linear regression models.
+Our first model is a simple linear regression model that predicts the female wages as a percent of male wages based on the percent of the workforce that is female.
+Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category.
+Our third model is an interaction model between the percentage of the workforce that is female and the major job category.
+EXPLAIN WHY FOR EACH ----- Ellie
 
-We created two logistic regression models. The fourth model predicts whether the total male earnings are greater than the total female earnings based on whether the workforce is majority male. Our fifth model is an additive model that uses the major job category, and whether the workforce is majority male as predictors. EXPLAIN WHY FOR EACH --- Emma
+We created two logistic regression models.
+The fourth model predicts whether the total male earnings are greater than the total female earnings based on whether the workforce is majority male.
+Our fifth model is an additive model that uses the major job category and whether the workforce is majority male as predictors.
+EXPLAIN WHY FOR EACH --- Emma
 
 SHOW HOW WE ARRIVED AT THE FINAL MODEL!!!
 
 ## Results
 
-This is where you will discuss your overall finding and describe the key results from your analysis.
-The goal is not to interpret every single element of an output shown, but instead to address the research questions, using the interpretations to support your conclusions.
-Focus on the variables that help you answer the research question and that provide relevant context for the reader.
+*Model 1*
 
-EDA:
-
-```{r}
-#| label: earnings-job-category
-#| echo: false
-
-ggplot(jobs_gender, aes(x = male_dom_earnings, fill = major_category)) +
-  geom_bar(position = "dodge") +
-  labs(
-    title = "Higher median male wages based on job category",
-    x = "Median male wage higher than median female wage",
-    y = "Proportion",
-    fill = "Major job category"
-  ) +
-  theme_minimal()
-```
+According to Figure 4, the relationship between the percent of the workforce that is female and female wages as a percent of male wages appears to be moderately strong, positive, and linear.
+Given this, we decided to fit a simple linear model with the percent of the female workforce as a predictor.
 
 ```{r}
-#| label: earnings-gap-workforce-gap-years
-#| echo: false
-#| warning: false
-<<<<<<< HEAD
+#| label: scatterplot-simple-linear-model
+#| fig-asp: 0.7
+#| fig-height: 4
 
-ggplot(jobs_gender_year, aes(x = percent_female, y = wage_percent_of_male)) +
-=======
-jobs_gender_year <- jobs_gender |>
-  filter(year == 2013 | year == 2016) |>
-  mutate(year = as.factor(year))
-
-ggplot(jobs_gender_year, aes(
-  x = percent_female, 
-  y = wage_percent_of_male, 
-  color = year)
-  ) +
->>>>>>> 35c7c5ddca8b1289bf29962b1fce097f0548997b
+ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
-    title = "Relationship between gender differences in workforce and wage gaps",
+    title = "Figure 4: Relationship between gender representation in the 
+workforce and wage gaps",
     x = "Percent of workforce that is female",
     y = "Female wages as percent of male wages",
-    color = "Year"
   ) +
   theme_minimal()
 ```
-Model 1:
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
 #| echo: false
 
-wages_female_year_fit <- linear_reg() |>
-  fit(wage_percent_of_male ~ percent_female, data = jobs_gender_year)
+simple_linear_fit <- linear_reg() |>
+  fit(wage_percent_of_male ~ percent_female, data = jobs_gender)
 
-tidy(wages_female_year_fit)
+tidy(simple_linear_fit)
 ```
 
-$$\widehat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce + 0.004 \times year$$
+$$\widehat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce$$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages with 0% of the workforce being female and the year of observation being 2013 will be 81.9%, on average.
-Holding all other variables constant, for every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.2 percentage points.
-Holding all other variables constant, for observations noted in 2016 as opposed to 2013, we expect the female wage as a percent of male wage to be higher, on average, by 0.4 percentage points.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when 0% of the workforce is female will be 82.1%, on average.
+For every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.3 percentage points.
 
 ```{r}
 #| label: r2-model1
-#| echo: false
-glance(wages_female_year_fit)
+#| eval: false
+glance(simple_linear_fit)
 ```
 
-$Adjusted~R^2=0.009$means that 0.9% of the variation in female wage as a percent of male wage is explained by percent female workforce and the year.
+$Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
+$Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors.
 
-Model 2:
+*Model 2*
+
+Considering how the distribution of female wages as a percent of male wages (see Figure 1) varies based on the major job category, the following additive linear model uses both the percent of females in the workforce and the major job category as predictors.
 
 ```{r}
-#| label: earnings-job-category-point
+#| label: additive-linear-model-fit
+#| eval: false
+additive_linear_model <- linear_reg() |>
+  fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
+tidy(additive_linear_model)
+```
+
+```{r}
+#| label: additive-linear-model-glance
+#| eval: false
+glance(additive_linear_model)
+```
+
+*Model 3*
+
+Considering the distribution of the percent of females in the workforce (see Figure 2) also varies based on the major job category, it is important to consider the interaction between these predictor variables. Figure 6 depicts this interaction linear model.
+
+```{r}
+#| label: scatterplot-interaction-lienar-model
 #| fig-width: 10
-#| echo: false
 ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male, color = major_category)) +
   geom_point(alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
-    title = "Relationship between gender differences in workforce and wage 
+    title = "Figure 6: Relationship between gender differences in workforce and wage 
 gaps by job category",
     x = "Percent of workforce that is female",
     y = "Female wages as percent of male wages",
@@ -255,45 +262,36 @@ gaps by job category",
   theme_minimal()
 ```
 
-```{r}
-#| label: percent-wage-female-linear-model2
-#| echo: false
+------------------------------------------------------------------------
 
-wages_female_jobs_additive <- linear_reg() |>
-  fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
-
-tidy(wages_female_jobs_additive)
-glance(wages_female_jobs_additive)
-```
-
-Model 3: We created an interactive linear model to predict the female wages as a percent of male wages based on the percentage of the workforce that is female and the major job category.
-
-```{r}
-#| label: percent-wage-female-linear-model3
-#| echo: false
-
-wages_female_jobs_fit_interactive <- linear_reg() |>
-  fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
-
-tidy(wages_female_jobs_fit_interactive)
-glance(wages_female_jobs_fit_interactive)
-```
-
--------------------------
-EMMA:
-Model 4: We created a logistic model to predict whether the median male wages at a company are higher than the median female wages based on the percentage of the workforce that is female.
+EMMA: Model 4: We created a logistic model to predict whether the median male wages at a company are higher than the median female wages based on the percentage of the workforce that is female.
 
 ```{r}
 #| label: earnings-workforce-logistic-reg-models
-#| echo: false
-
 earnings_log_fit <- logistic_reg() |>
 	fit(male_dom_earnings ~ male_dom_workforce, data = jobs_gender)
 
 tidy(earnings_log_fit)
 ```
 
-$$\log\Big(\frac{\hat{p}}{1-\hat{p}}\Big) = 3.36 + 0.41 \times percent~female~workforce$$
+$$\log\Big(\frac{\hat{p}}{1-\hat{p}}\Big) = 3.36 + 0.41 \times percent~female~workforce$$ Model 5:
+
+Based on Figure 4, all job categories have a higher proportion of observation with higher median male wages, though the Sales and Office; Computer, Engineering, and Science; and Production, Transportation, and Material Moving categories show the largest proportions of higher median male wages under the `male_dom_earnings` variable.
+Given this visual, we have decided to fit a logistic regression model to predict whether median male wages are higher than median female wages for a given observation based on the major job category and whether the workforce was majority male.
+
+```{r}
+#| label: earnings-job-category
+ggplot(jobs_gender, aes(x = major_category, fill = male_dom_earnings)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Figure 4: Higher median male wages based on job category",
+    x = "Major job category",
+    y = "Proportion",
+    fill = "Median male wage higher?"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 ## Discussion
 
