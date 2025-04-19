@@ -24,6 +24,8 @@ We will primarily consider the variables of female wages as a percent of male wa
 #| label: load-packages
 library(tidyverse)
 library(tidymodels)
+library(ggplot2)
+library(dplyr)
 jobs_gender <- read_csv("data/jobs_gender.csv")
 ```
 
@@ -185,8 +187,8 @@ Given this, we decided to fit a simple linear model with the percent of the fema
 
 ```{r}
 #| label: scatterplot-simple-linear-model
-#| fig-asp: 0.7
-#| fig-height: 4
+#| fig-asp: 0.8
+#| fig-height: 8
 
 ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male)) +
   geom_point(alpha = 0.5) +
@@ -210,9 +212,9 @@ simple_linear_fit <- linear_reg() |>
 tidy(simple_linear_fit)
 ```
 
-$$\widehat{wage~percent~of~male} = 0.82 + 0.04 \times percent~female~workforce$$
+$$\widehat{wage~percent~of~male} = 0.821 + 0.043 \times percent~female~workforce$$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages when 0% of the workforce is female will be 82.1%, on average.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers will be 82.1%, on average.
 For every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.3 percentage points.
 
 ```{r}
@@ -230,30 +232,77 @@ Considering how the distribution of female wages as a percent of male wages (see
 
 ```{r}
 #| label: additive-linear-model-fit
-#| eval: false
 additive_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
 tidy(additive_linear_model)
 ```
 
 ```{r}
+#| label: additive-scatterplot
+#| fig-asp: 0.6
+#| fig-width: 10
+
+jobs_gender_additive_aug <- augment(additive_linear_model, new_data = jobs_gender)
+
+ggplot(
+  jobs_gender_additive_aug, 
+  aes(x = percent_female, y = wage_percent_of_male, color = major_category)
+  ) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(aes(y = .pred), method = "lm") +
+  labs(
+    title = "Figure 5: Additive model of gender differences in workforce and wage 
+gaps by job category",
+    x = "Percent of workforce that is female",
+    y = "Female wages as percent of male wages",
+    color = "Major job category"
+    ) +
+  theme_minimal()
+```
+
+$$
+\small
+\begin{aligned}
+\widehat{wage~percent~of~male} &= 0.853 + 0.053 \times percent~female~workforce \\
+&\quad -0.02 \times Education,~Legal,~Community~Service,~Arts,~and~Media \\
+&\quad -0.026 \times Healthcare~Practitioners~and~Technical \\
+&\quad -0.073 \times Management,~Business,~and~Financial \\
+&\quad -0.004 \times Natural~Resources,~Construction,~and~Maintenance \\
+&\quad -0.078 \times Production,~Transportation,~and~Material~Moving \\
+&\quad -0.046 \times Sales~and~Office \\
+&\quad -0.012 \times Service
+\end{aligned}
+$$
+
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 85.3%, on average.
+Holding all other variables constant, for every additional percentage point of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 5.3 percentage points. The intercept adjustments for non-baseline major job categories are given above. Holding all other variables constant, we expect an observation within the major job category of Education, Legal, Community Service, Arts, and Media to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
+
+```{r}
 #| label: additive-linear-model-glance
 #| eval: false
 glance(additive_linear_model)
 ```
+$Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
 
 *Model 3*
 
-Considering the distribution of the percent of females in the workforce (see Figure 2) also varies based on the major job category, it is important to consider the interaction between these predictor variables. Figure 6 depicts this interaction linear model.
+Considering the distribution of the percent of females in the workforce (see Figure 2) also varies based on the major job category, it is important to consider the interaction between these predictor variables.
+Figure 6 depicts this interaction linear model.
 
 ```{r}
 #| label: scatterplot-interaction-lienar-model
+#| fig-asp: 0.6
 #| fig-width: 10
-ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male, color = major_category)) +
+
+ggplot(jobs_gender, aes(
+  x = percent_female, 
+  y = wage_percent_of_male, 
+  color = major_category)
+  ) +
   geom_point(alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
-    title = "Figure 6: Relationship between gender differences in workforce and wage 
+    title = "Figure 6: Interaction model of gender differences in workforce and wage 
 gaps by job category",
     x = "Percent of workforce that is female",
     y = "Female wages as percent of male wages",
@@ -261,6 +310,50 @@ gaps by job category",
   ) +
   theme_minimal()
 ```
+```{r}
+#| label: interaction-linear-model-fit
+#| eval: false
+interaction_linear_model <- linear_reg() |>
+  fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
+tidy(interaction_linear_model)
+```
+
+$$
+\small
+\begin{aligned}
+\widehat{wage~percent~of~male} &= 0.909 -0.138 \times percent~female~workforce \\
+&\quad -0.094 \times Education,~Legal,~Community~Service,~Arts,~and~Media \\
+&\quad -0.214 \times Healthcare~Practitioners~and~Technical \\
+&\quad -0.076 \times Management,~Business,~and~Financial \\
+&\quad -0.048 \times Natural~Resources,~Construction,~and~Maintenance \\
+&\quad -0.113 \times Production,~Transportation,~and~Material~Moving \\
+&\quad -0.168 \times Sales~and~Office \\
+&\quad -0.059 \times Service \\
+&\quad +0.222 \times percent~female~workforce \times Education,~Legal,~Community~Service,~Arts,~and~Media \\
+&\quad +0.403 \times percent~female~workforce \times Healthcare~Practitioners~and~Technical \\
+&\quad +0.079 \times percent~female~workforce \times Management,~Business,~and~Financial \\
+&\quad +0.075 \times percent~female~workforce \times Natural~Resources,~Construction,~and~Maintenance \\
+&\quad +0.128 \times percent~female~workforce \times Production,~Transportation,~and~Material~Moving \\
+&\quad +0.302 \times percent~female~workforce \times Sales~and~Office \\
+&\quad +0.171 \times percent~female~workforce \times Service \\
+\end{aligned}
+$$
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average. This makes sense given the well-known disparities in women's wages in STEM fields.
+Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points. This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages. The intercept and slope adjustments for non-baseline major job categories are given above. The following is an example of a simplified equation if the major job category is Education, Legal, Community Service, Arts, and Media:
+$$\widehat{wage~percent~of~male} = (0.909 - 0.094) + (-0.138 + 0.222) \times percent~female~workforce$$
+$$\widehat{wage~percent~of~male} = 0.815 + 0.084 \times percent~female~workforce$$
+Holding all other variables constant, we expect an observation within the major job category of Education, Legal, Community Service, Arts, and Media to have a female wage as a percent of male wage that is higher, on average, by 8.4 percentage points. This finding is consistent with our idea that a female-stereotyped field like education would have higher female wages as a percent of male wages.
+
+```{r}
+#| label: interaction-linear-model-glance
+#| eval: false
+glance(interaction_linear_model)
+```
+$Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a percent of male wage is explained by the interaction between the percent of females in the workforce and the major job category.
+
+*Selection of Linear Model*
+
+Because the $Adjusted~R^2$ of the interaction model is the highest, we have decided to select this model for further analysis.
 
 ------------------------------------------------------------------------
 
