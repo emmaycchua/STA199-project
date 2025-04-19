@@ -355,6 +355,32 @@ $Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a perce
 
 Because the $Adjusted~R^2$ of the interaction model is the highest, we have decided to select this model for further analysis.
 
+*Hypothesis Test Using the Interaction Model*
+
+```{r}
+#| label: hypothesis-testing
+
+observed_fit <- jobs_gender |>
+  specify(wage_percent_of_male ~ percent_female * major_category) |>
+  fit()
+
+set.seed(1234)
+
+null_dist <- jobs_gender |>
+  specify(wage_percent_of_male ~ percent_female * major_category) |>
+  hypothesize(null = "independence") |>
+  generate(reps = 100, type = "permute") |>
+  fit()
+
+visualize(null_dist) +
+  shade_p_value(obs_stat = observed_fit, direction = "two-sided") +
+  labs(x = "slope estimates", y = "count") +
+  theme_minimal()
+
+null_dist |>
+  get_p_value(obs_stat = observed_fit, direction = "two-sided")
+```
+
 ------------------------------------------------------------------------
 
 EMMA: Model 4: We created a logistic model to predict whether the median male wages at a company are higher than the median female wages based on the percentage of the workforce that is female.
