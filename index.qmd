@@ -71,6 +71,8 @@ The following plot visualizes the distribution of female wages as a percentage o
 Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers. We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
 
 *******ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT*******
+
+
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
@@ -80,9 +82,10 @@ jobs_gender |>
   geom_boxplot() +
   guides(color = guide_legend(reverse = TRUE)) +
   labs(
-    title = "Figure 1: Distribution of female wages as percent of 
-male wages according to each major job category",
-    x = "Female wages as percent of male wages",
+    title = "Figure 1: 
+Distribution of female wages as percent of male wages",
+    subtitle = "by major job category",
+    x = "Female wages as % of male wages",
     color = "Major category"
   ) +
   scale_color_brewer(palette = "Set1") +
@@ -108,8 +111,11 @@ Figure 2 shows __________. There is the least amount of female representation ac
 #| fig-width: 10
 ggplot(jobs_gender, aes(x = major_category, fill = male_dom_workforce)) +
   geom_bar(position = "fill") +
+  geom_hline(yintercept = 0.5, linetype = "dashed", color = "black") +
   labs(
-    title = "Figure 2: Male-dominated workforces based on job categories",
+    title = "Figure 2: 
+Male-dominated workforces",
+    subtitle = "based on job categories",
     x = "Major job category",
     y = "Proportion of all observations",
     fill = "Workforce type"
@@ -130,7 +136,8 @@ jobs_gender |>
   ggplot(aes(x = wage_percent_of_male)) +
   geom_histogram() +
   labs(
-    title = "Figure 3: Distribution of the percentage of male wages that females earn",
+    title = "Figure 3: 
+Distribution of the percentage of male wages that females earn",
     x = "Percent of male wages"
   ) +
   theme_minimal()
@@ -181,7 +188,7 @@ SHOW HOW WE ARRIVED AT THE FINAL MODEL!!!
 
 ## Results
 
-*Model 1*
+**Model 1**
 
 According to Figure 4, the relationship between the percent of the workforce that is female and female wages as a percent of male wages appears to be moderately strong, positive, and linear.
 Given this, we decided to fit a simple linear model with the percent of the female workforce as a predictor.
@@ -195,10 +202,10 @@ ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
-    title = "Figure 4: Relationship between gender representation in the 
-workforce and wage gaps",
-    x = "Percent of workforce that is female",
-    y = "Female wages as percent of male wages",
+    title = "Figure 4: 
+Wage inequality vs. gender representation in the workforce",
+    x = "% of workforce that is female",
+    y = "Female wages as % of male wages",
   ) +
   theme_minimal()
 ```
@@ -228,7 +235,7 @@ glance(simple_linear_fit)
 $Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
 $Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors.
 
-*Model 2*
+**Model 2**
 
 Considering how the distribution of female wages as a percent of male wages (see Figure 1) varies based on the major job category, the following additive linear model uses both the percent of females in the workforce and the major job category as predictors.
 
@@ -254,10 +261,11 @@ ggplot(
   geom_point(alpha = 0.5) +
   geom_smooth(aes(y = .pred), method = "lm") +
   labs(
-    title = "Figure 5: Additive model of gender differences in workforce and wage 
-gaps by job category",
-    x = "Percent of workforce that is female",
-    y = "Female wages as percent of male wages",
+    title = "Figure 5: 
+Additive model of wage inequality vs. gender differences in workforce",
+    subtitle = "by job category",
+    x = "% of workforce that is female",
+    y = "Female wages as % of male wages",
     color = "Major job category"
     ) +
   scale_color_brewer(palette = "Set1") +
@@ -288,7 +296,7 @@ glance(additive_linear_model)
 ```
 $Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
 
-*Model 3*
+**Model 3**
 
 Considering the distribution of the percent of females in the workforce (see Figure 2) also varies based on the major job category, it is important to consider the interaction between these predictor variables.
 Figure 6 depicts this interaction linear model.
@@ -306,10 +314,11 @@ ggplot(jobs_gender, aes(
   geom_point(alpha = 0.3) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
-    title = "Figure 6: Interaction model of gender differences in workforce and wage 
-gaps by job category",
-    x = "Percent of workforce that is female",
-    y = "Female wages as percent of male wages",
+    title = "Figure 6: 
+Interaction model of wage inequality vs. gender differences in workforce",
+    subtitle = "by job category",
+    x = "% of workforce that is female",
+    y = "Female wages as % of male wages",
     color = "Major job category"
   ) +
   scale_color_brewer(palette = "Set1") +
