@@ -29,7 +29,6 @@ library(dplyr)
 jobs_gender <- read_csv("data/jobs_gender.csv")
 ```
 
-DELETE VARIABLES WE DIDN'T USE:
 
 ```{r}
 #| label: mutate-variables-to-decimal-form-and-rename
@@ -57,12 +56,6 @@ jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
   mutate(
-# creating wage_percent_of_female 
-    wage_percent_of_female = (1 - wage_percent_of_male),
-# creating median_earnings_gap_prop to measure the proportional difference between male and female wages. If the value is greater than zero, males tend to be paid more in their position.
-    median_earnings_gap_prop = (median_earnings_male - median_earnings_female) / median_earnings_female,
-# calculate workforce_gap_prop to calculate the proportional difference in number of male to female workers.
-    workforce_gap_prop = (workers_male - workers_female) / total_workers,
 # create male_dom_workforce as a binary factor where "Yes" means that there are more male workers than female workers, and "No" when there are more female workers.
     male_dom_workforce = as.factor(if_else(
       workers_male > workers_female, "Yes", "No")),
@@ -72,8 +65,11 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
+In order to begin exploring the data, we created the following three visualizations to understand which career categories show the most wage inequality, how gender representation varies by wage category, and how the variation in how much women are paid compared to men is shown. 
+
 The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
 
+Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers. We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
@@ -93,6 +89,7 @@ male wages according to each major job category",
   axis.text.y = element_blank())
 ```
 
+The second visualization allowed us to learn that there is the least amount of female representation in careers in the nautral resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
 ```{r}
 #| label: scatterplot-workforce-percentage-female
 #| fig-asp: 0.5
@@ -111,7 +108,21 @@ according to each major job category",
   axis.text.y = element_blank())
 ```
 
-EDA ADD THESE VISUALIZATIONS / SUMMARIES: - Figure 3: Response variable - histogram, percent_wage_male
+The final visualization displays that most women earn under 90% of a man's wage.
+```{r}
+#| label: histogram-percent-wage-male
+#| fig-asp: 0.5
+#| fig-height: 8
+jobs_gender |>
+  ggplot(aes(x = wage_percent_of_male)) +
+  geom_histogram() +
+  labs(
+    title = "Figure 3: Distribution of the percentage of male wages that females earn",
+    x = "Percent of male wages"
+  ) +
+  theme_minimal()
+```
+
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
@@ -124,7 +135,13 @@ Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
 
-EDA ADD THESE VISUALIZATIONS / SUMMARIES: - Table 1: Summary statistic - group by male_dom_earnings, count, year
+```{r}
+#| label: eda-male-dom-earnings
+jobs_gender |>
+  group_by(male_dom_earnings, year) |>
+  count()
+```
+
 
 96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
 
