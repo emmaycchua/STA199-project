@@ -29,7 +29,6 @@ library(dplyr)
 jobs_gender <- read_csv("data/jobs_gender.csv")
 ```
 
-
 ```{r}
 #| label: mutate-variables-to-decimal-form-and-rename
 # mutating percent_female to be displayed as a decimal
@@ -56,10 +55,10 @@ jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
   mutate(
-# create male_dom_workforce as a binary factor where "Yes" means that there are more male workers than female workers, and "No" when there are more female workers.
+# create male_dom_workforce as a binary factor where "Male dominated" means that there are more male workers than female workers, and "Female dominated" when there are more female workers.
     male_dom_workforce = as.factor(if_else(
-      workers_male > workers_female, "Yes", "No")),
-# create male_dom_earnings as a binary factor where "Yes" means that male workers tend to be paid more than female workers, and "No" when female workers are usually paid more.
+      workers_male > workers_female, "Majority male", "Majority female")),
+# create male_dom_earnings as a binary factor where Yes" means that male workers tend to be paid more than female workers, and "No" when female workers are usually paid more.
     male_dom_earnings = as.factor(if_else(
       median_earnings_male > median_earnings_female, "Yes", "No"))
     )
@@ -70,6 +69,8 @@ In order to begin exploring the data, we created the following three visualizati
 The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
 
 Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers. We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
+
+*******ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT*******
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
@@ -77,36 +78,48 @@ Based on the following visualization, we observed that all observations where wo
 jobs_gender |>
   ggplot(aes(x = wage_percent_of_male, color = major_category)) +
   geom_boxplot() +
+  guides(color = guide_legend(reverse = TRUE)) +
   labs(
     title = "Figure 1: Distribution of female wages as percent of 
 male wages according to each major job category",
     x = "Female wages as percent of male wages",
-    color = "Major category",
-    y = NULL
+    color = "Major category"
   ) +
+  scale_color_brewer(palette = "Set1") +
   theme_minimal() +
   theme(axis.ticks.y = element_blank(),
   axis.text.y = element_blank())
 ```
 
-The second visualization allowed us to learn that there is the least amount of female representation in careers in the nautral resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
+Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
+
 ```{r}
-#| label: scatterplot-workforce-percentage-female
-#| fig-asp: 0.5
-#| fig-height: 8
+#| label: eda-male-dom-earnings
 jobs_gender |>
-  ggplot(aes(x = percent_female, color = major_category)) +
-  geom_boxplot() +
-  labs(
-    title = "Figure 2: Distribution of females in workforce 
-according to each major job category",
-    x = "Percent females in the workforce",
-    color = "Major category"
-  ) +
-  theme_minimal() +
-  theme(axis.ticks.y = element_blank(),
-  axis.text.y = element_blank())
+  group_by(male_dom_earnings, year) |>
+  count()
 ```
+
+Figure 2 shows __________. There is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
+
+```{r}
+#| label: earnings-job-category
+#| fig-asp: 0.6
+#| fig-width: 10
+ggplot(jobs_gender, aes(x = major_category, fill = male_dom_workforce)) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Figure 2: Male-dominated workforces based on job categories",
+    x = "Major job category",
+    y = "Proportion of all observations",
+    fill = "Workforce type"
+  ) +
+  scale_fill_brewer(palette = "Set1") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+********* ASK DOM IF WE NEED THIS VISUALIZATION TOO AND GENERALLY WHAT ELSE WE SHOULD INCLULDE FOR EDA*******
 
 The final visualization displays that most women earn under 90% of a man's wage.
 ```{r}
@@ -123,7 +136,6 @@ jobs_gender |>
   theme_minimal()
 ```
 
-
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
 Census.
@@ -133,35 +145,12 @@ Each observation is a different combination of the year observed and occupation 
 Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
 Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
-Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Yes" when the number of male workers is greater than the number of female workers and "No" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
-
-```{r}
-#| label: eda-male-dom-earnings
-jobs_gender |>
-  group_by(male_dom_earnings, year) |>
-  count()
-```
-
-
-96.8% of the majority male workforces in the sample have median male wages that are higher than female wages, compared with 97.7% of non-majority male workforces in the sample.
-
-```{r}
-#| label: exploratory-data-anaylsis-summary-stats
-summary_stats <- jobs_gender |>
-  group_by(major_category, year) |>
-  summarize(
-    median_earnings_yr = median(median_earnings, na.rm = TRUE),
-    median_earnings_male_yr = median(median_earnings_male, na.rm = TRUE),
-    median_earnings_female_yr = median(median_earnings_female, na.rm = TRUE),
-    total_workers_yr = sum(total_workers, na.rm = TRUE)
-  )
-summary_stats
-```
-
 We have also transformed column names to provide more information and make data visualization and manipulation easier.
 We have made percent_female and wage_percent_of_male into decimals rather than percentages.
 
 Finally, We renamed the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
+
+We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories. We also predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Management, Business, and Financial", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
 
 ## Methodology
 
@@ -188,11 +177,6 @@ Our second model is an additive linear model which uses the predictors the perce
 Our third model is an interaction model between the percentage of the workforce that is female and the major job category.
 EXPLAIN WHY FOR EACH ----- Ellie
 
-We created two logistic regression models.
-The fourth model predicts whether the total male earnings are greater than the total female earnings based on whether the workforce is majority male.
-Our fifth model is an additive model that uses the major job category and whether the workforce is majority male as predictors.
-EXPLAIN WHY FOR EACH --- Emma
-
 SHOW HOW WE ARRIVED AT THE FINAL MODEL!!!
 
 ## Results
@@ -204,8 +188,8 @@ Given this, we decided to fit a simple linear model with the percent of the fema
 
 ```{r}
 #| label: scatterplot-simple-linear-model
-#| fig-asp: 0.8
-#| fig-height: 8
+#| fig-asp: 0.6
+#| fig-width: 10
 
 ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male)) +
   geom_point(alpha = 0.5) +
@@ -222,6 +206,7 @@ workforce and wage gaps",
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
 #| echo: false
+#| message: false
 
 simple_linear_fit <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female, data = jobs_gender)
@@ -249,6 +234,7 @@ Considering how the distribution of female wages as a percent of male wages (see
 
 ```{r}
 #| label: additive-linear-model-fit
+#| message: false
 additive_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
 tidy(additive_linear_model)
@@ -274,6 +260,7 @@ gaps by job category",
     y = "Female wages as percent of male wages",
     color = "Major job category"
     ) +
+  scale_color_brewer(palette = "Set1") +
   theme_minimal()
 ```
 
@@ -296,7 +283,7 @@ Holding all other variables constant, for every additional percentage point of f
 
 ```{r}
 #| label: additive-linear-model-glance
-#| eval: false
+#| message: false
 glance(additive_linear_model)
 ```
 $Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
@@ -325,11 +312,13 @@ gaps by job category",
     y = "Female wages as percent of male wages",
     color = "Major job category"
   ) +
+  scale_color_brewer(palette = "Set1") +
   theme_minimal()
 ```
+
 ```{r}
 #| label: interaction-linear-model-fit
-#| eval: false
+#| message: false
 interaction_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
 tidy(interaction_linear_model)
@@ -389,44 +378,8 @@ null_dist <- jobs_gender |>
   generate(reps = 100, type = "permute") |>
   fit()
 
-visualize(null_dist) +
-  shade_p_value(obs_stat = observed_fit, direction = "two-sided") +
-  labs(x = "slope estimates", y = "count") +
-  theme_minimal()
-
 null_dist |>
   get_p_value(obs_stat = observed_fit, direction = "two-sided")
-```
-
-------------------------------------------------------------------------
-
-EMMA: Model 4: We created a logistic model to predict whether the median male wages at a company are higher than the median female wages based on the percentage of the workforce that is female.
-
-```{r}
-#| label: earnings-workforce-logistic-reg-models
-earnings_log_fit <- logistic_reg() |>
-	fit(male_dom_earnings ~ male_dom_workforce, data = jobs_gender)
-
-tidy(earnings_log_fit)
-```
-
-$$\log\Big(\frac{\hat{p}}{1-\hat{p}}\Big) = 3.36 + 0.41 \times percent~female~workforce$$ Model 5:
-
-Based on Figure 4, all job categories have a higher proportion of observation with higher median male wages, though the Sales and Office; Computer, Engineering, and Science; and Production, Transportation, and Material Moving categories show the largest proportions of higher median male wages under the `male_dom_earnings` variable.
-Given this visual, we have decided to fit a logistic regression model to predict whether median male wages are higher than median female wages for a given observation based on the major job category and whether the workforce was majority male.
-
-```{r}
-#| label: earnings-job-category
-ggplot(jobs_gender, aes(x = major_category, fill = male_dom_earnings)) +
-  geom_bar(position = "fill") +
-  labs(
-    title = "Figure 4: Higher median male wages based on job category",
-    x = "Major job category",
-    y = "Proportion",
-    fill = "Median male wage higher?"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ## Discussion
