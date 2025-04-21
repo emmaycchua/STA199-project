@@ -97,7 +97,7 @@ Distribution of female wages as percent of male wages",
   axis.text.y = element_blank())
 ```
 
-Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
+Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings. The following table shows the pattern that regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11. Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
 
 ```{r}
 #| label: eda-male-dom-earnings
@@ -106,9 +106,7 @@ jobs_gender |>
   count()
 ```
 
-Figure 2 shows \_\_\_\_\_\_\_\_\_\_.
-There is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field.
-However, the careers in sales/office, healthcare, and education are female-dominated.
+Figure 2 shows the proportion of occupations within the different major categories that reported having a male or female dominated work force. The dashed line shows the 50% mark in the proportions, so any bar showing the blue male-majority line surpassing the dashed line has majority male-dominated work forces. The graph shows that there is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
 
 ```{r}
 #| label: earnings-job-category
