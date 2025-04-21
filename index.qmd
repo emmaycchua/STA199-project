@@ -90,8 +90,6 @@ The following plot visualizes the distribution of female wages as a percentage o
 Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers.
 We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
 
-\*\*\*\*\*\*\*ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT\*\*\*\*\*\*\*
-
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
@@ -114,7 +112,7 @@ Distribution of female wages as percent of male wages",
 ```
 
 Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
-The following table shows the pattern that regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11.
+The following table demonstrates that, regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11.
 Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
 
 ```{r}
@@ -167,38 +165,36 @@ Male-dominated workforces",
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-\*\*\*\*\*\*\*\*\* ASK DOM IF WE NEED THIS VISUALIZATION TOO AND GENERALLY WHAT ELSE WE SHOULD INCLULDE FOR EDA\*\*\*\*\*\*\*
-
-The final visualization displays that most women earn under 90% of a man's wage.
+Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed. The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages. The median female wage as a percent of male wage is 85.2% with a standard deviation of 9.4%.
 
 ```{r}
 #| label: histogram-percent-wage-male
-#| fig-asp: 0.5
-#| fig-height: 8
+#| fig-asp: 0.6
+#| fig-width: 10
 jobs_gender |>
   ggplot(aes(x = wage_percent_of_male)) +
-  geom_histogram() +
+  geom_histogram(binwidth = 0.025) +
+  geom_vline(xintercept = 1.0, linetype = "dashed", color = "black") +
   labs(
     title = "Figure 3: 
-Distribution of the percentage of male wages that females earn",
-    x = "Percent of male wages"
+Distribution of female wages as a percent of male wages",
+    x = "Female wages as a percent of male wages",
+    y = "Count"
   ) +
   theme_minimal()
+
+eda_wage_gap <- jobs_gender |>
+  summarize(
+    median_wage_gap = median(wage_percent_of_male),
+    sd_wage_gap = sd(wage_percent_of_male)
+    )
+kableExtra::kable(eda_wage_gap)
 ```
 
 We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories.
 We also predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
 
 ## Methodology
-
-------------------------------------------------------------------------
-
-This section includes a brief description of your analysis process.
-Explain the reasoning for the types of analyses you do, exploratory, inferential, or modeling.
-If you’ve chosen to do inference, make sure to include a justification for why that inferential approach is appropriate.
-If you’ve chosen to do modeling, describe the model(s) you’re fitting, predictor variables considered for the model including any interactions.
-Additionally, show how you arrived at the final model by describing the model selection process, interactions considered, variable transformations (if needed), assessment of conditions and diagnostics, and any other relevant considerations that were part of the model fitting process.
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 We chose to do an exploratory analysis first to better understand the relationships between variables.
 We created a bar chart that shows the proportions of workforces that do or do not have a median male wage higher than median female wages that is dodged based on the major job category.
