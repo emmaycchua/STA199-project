@@ -10,15 +10,28 @@ Our research aims to analyze how women are marginalized in various job settings,
 
 ## Introduction and data
 
-The gender pay gap has always been a relevant issue for women seeking equal workplace rights. Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective. We are interested in how gender pay gaps vary across time from 2013 to 2016, varying percentages of female representation in the workforce, and specific major job categories, such as the Management, Business, and Financial sector.
+The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
+Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective.
+We are interested in how gender pay gaps vary across time from 2013 to 2016, varying percentages of female representation in the workforce, and specific major job categories, such as the Management, Business, and Financial sector.
 
-We hypothesize that major job categories that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career. Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?
+We hypothesize that major job categories that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
+Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?
 
 We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), percentage of females in the workforce (`percent_female`), and year of data collection ranging from 2013 to 2016 (`year`).
 
-All data was collected between 2013 and 2016 from statistics provided by the U.S. Bureau of Labor through the U.S. Census. There are 2089 observations total, with 12 columns. Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years). 301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year. Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S. Bureau of Labor Statistics, there are no ethical concerns with the data itself.
+All data was collected between 2013 and 2016 from statistics provided by the U.S.
+Bureau of Labor through the U.S.
+Census.
+There are 2089 observations total, with 12 columns.
+Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years).
+301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year.
+Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
+Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
-We  transformed column names to provide more information and make data visualization and manipulation easier. Those transformations include renaming the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group. We also made percent_female and wage_percent_of_male into decimals rather than percentages. Finally, to make the data easier to work with, we omitted observations with N/A values.
+We transformed column names to provide more information and make data visualization and manipulation easier.
+Those transformations include renaming the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
+We also made percent_female and wage_percent_of_male into decimals rather than percentages.
+Finally, to make the data easier to work with, we omitted observations with N/A values.
 
 After our data cleaning, we have considered the following variables to be important in our data analysis: `year` (2013-2016), `major_category` (broad occupation category), `workers_male` and `workers_female` (estimated male or female full time workers above 16 years old), `percent_female` (percent of females for specific occupations), `total_earnings_male` which became `median_earnings_male` and `total_earnings_female` which became `median_earnings_female` (estimated male or female median earnings for full time workers over 16), and `wage_percent_of_male` (female wages as percent of male wages).
 
@@ -34,6 +47,7 @@ jobs_gender <- read_csv("data/jobs_gender.csv")
 
 ```{r}
 #| label: mutate-variables-to-decimal-form-and-rename
+#| message: FALSE
 # mutating percent_female to be displayed as a decimal
 jobs_gender <- jobs_gender |>
   mutate(
@@ -54,6 +68,7 @@ jobs_gender <- jobs_gender |>
 
 ```{r}
 #| label: creating-new-variables
+#| message: FALSE
 jobs_gender <- jobs_gender |>
 # omit all observations with NA values.
   na.omit(jobs_gender) |>
@@ -97,17 +112,23 @@ Distribution of female wages as percent of male wages",
   axis.text.y = element_blank())
 ```
 
-Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings. The following table shows the pattern that regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11. Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
+Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
+The following table shows the pattern that regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11.
+Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
 
 ```{r}
 #| label: eda-male-dom-earnings
+#| message: FALSE
 eda_male_dom_earnings <- jobs_gender |>
   group_by(male_dom_earnings, year) |>
   count()
 kableExtra::kable(eda_male_dom_earnings)
 ```
 
-Figure 2 shows the proportion of occupations within the different major categories that reported having a male or female dominated work force. The dashed line shows the 50% mark in the proportions, so any bar showing the blue male-majority line surpassing the dashed line has majority male-dominated work forces. The graph shows that there is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
+Figure 2 shows the proportion of occupations within the different major categories that reported having a male or female dominated work force.
+The dashed line shows the 50% mark in the proportions, so any bar showing the blue male-majority line surpassing the dashed line has majority male-dominated work forces.
+The graph shows that there is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field.
+However, the careers in sales/office, healthcare, and education are female-dominated.
 
 ```{r}
 #| label: earnings-job-category
@@ -210,6 +231,7 @@ Wage inequality vs. gender representation in the workforce",
 
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
+#| message: FALSE
 
 simple_linear_fit <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female, data = jobs_gender)
@@ -225,6 +247,7 @@ For every additional percentage point in percent of female employees in the work
 ```{r}
 #| label: r2-model1
 #| eval: false
+#| message: FALSE
 glance(simple_linear_fit)
 ```
 
@@ -237,6 +260,7 @@ Considering how the distribution of female wages as a percent of male wages (see
 
 ```{r}
 #| label: additive-linear-model-fit
+#| message: FALSE
 additive_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
 tidy(additive_linear_model)
@@ -288,6 +312,7 @@ Holding all other variables constant, we expect an observation within the major 
 
 ```{r}
 #| label: additive-linear-model-glance
+#| message: FALSE
 glance(additive_linear_model)
 ```
 
@@ -324,6 +349,7 @@ Interaction model of wage inequality vs. gender differences in workforce",
 
 ```{r}
 #| label: interaction-linear-model-fit
+#| message: FALSE
 interaction_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
 tidy(interaction_linear_model)
@@ -360,6 +386,7 @@ Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.
 
 ```{r}
 #| label: interaction-linear-model-glance
+#| message: FALSE
 #| eval: false
 glance(interaction_linear_model)
 ```
@@ -379,6 +406,7 @@ The p-value is 0, which means that we should reject the null hypothesis as assum
 
 ```{r}
 #| label: hypothesis-testing
+#| message: FALSE
 
 observed_fit <- jobs_gender |>
   specify(wage_percent_of_male ~ percent_female * major_category) |>
