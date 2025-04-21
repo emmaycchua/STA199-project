@@ -17,10 +17,10 @@ Given the current political state and changes to DEI policies, this topic is cru
 In two decades, the gender pay gap has only narrowed by 4%, with women earning 81% as much as men in 2003 and 85% in 2024 (Fry & Aragão, 2025).
 The data that we investigate in this study measures the pay gap for four years in between.
 The gender pay gap is large and slowly moving, with estimations that it will take between 63 and 134 years to close (Holder 2025, The Gender, n.d.).
-We are interested in how gender pay gaps vary across time from 2013 to 2016, varying percentages of female representation in the workforce, and specific major job categories, such as the Management, Business, and Financial sectors.
+We are interested in how gender pay gaps vary across time from 2013 to 2016, by varying percentages of female representation in the workforce, and by specific major job categories, such as the Management, Business, and Financial sectors.
 
 We hypothesize that major job categories that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
-Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?
+Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?**
 
 We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), percentage of females in the workforce (`percent_female`), and year of data collection ranging from 2013 to 2016 (`year`).
 
@@ -35,7 +35,7 @@ Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
 We transformed column names to provide more information and make data visualization and manipulation easier.
 Those transformations include renaming the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
-We also made percent_female and wage_percent_of_male into decimals rather than percentages.
+We also made `percent_female` and `wage_percent_of_male` into decimals rather than percentages.
 Finally, to make the data easier to work with, we omitted observations with N/A values.
 
 After our data cleaning, we have considered the following variables to be important in our data analysis: `year` (2013-2016), `major_category` (broad occupation category), `workers_male` and `workers_female` (estimated male or female full time workers above 16 years old), `percent_female` (percent of females for specific occupations), `total_earnings_male` which became `median_earnings_male` and `total_earnings_female` which became `median_earnings_female` (estimated male or female median earnings for full time workers over 16), and `wage_percent_of_male` (female wages as percent of male wages).
@@ -115,8 +115,8 @@ Distribution of female wages as percent of male wages",
   axis.text.y = element_blank())
 ```
 
-Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
-The following table demonstrates that, regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11.
+Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers, and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
+The following table demonstrates that, regardless of year, the amount of occupations showing male-dominated earnings in this study remains around 300, and that occupations with female-dominated earnings, while showing a slight increase over time, are still under 11.
 Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
 
 *Table 1*
@@ -129,10 +129,10 @@ eda_male_dom_earnings <- jobs_gender |>
 kableExtra::kable(eda_male_dom_earnings)
 ```
 
-Figure 2 shows the proportion of occupations within the different major categories that reported having a male or female dominated work force.
+Figure 2 shows the proportion of occupations within the different major categories that reported having a male- or female-dominated work force.
 The dashed line shows the 50% mark in the proportions, so any bar showing the blue male-majority line surpassing the dashed line has majority male-dominated work forces.
-The graph shows that there is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field.
-However, the careers in sales/office, healthcare, and education are female-dominated.
+The graph shows that there is the least amount of female representation across observations in the major job category of "Natural Resources, Construction, and Maintenance", making it a male-dominated field.
+However, the careers in "Sales/Office", "Healthcare", and "Education" categories are female-dominated.
 
 ```{r}
 #| label: earnings-job-category
@@ -170,7 +170,7 @@ Male-dominated workforces",
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed. The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages. The median female wage as a percent of male wage is 85.2% with a standard deviation of 9.4% (see Table 2).
+Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed. The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages. The median female wage as a percent of male wage is 85.2%, with a standard deviation of 9.4% (see Table 2).
 
 ```{r}
 #| label: histogram-percent-wage-male
@@ -314,10 +314,10 @@ $$
 \end{aligned}
 $$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 85.3%, on average.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is "Computer, Engineering, and Science" will be 85.3%, on average.
 Holding all other variables constant, for every additional percentage point of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 5.3 percentage points.
 The intercept adjustments for non-baseline major job categories are given above.
-Holding all other variables constant, we expect an observation within the major job category of Education, Legal, Community Service, Arts, and Media to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
+Holding all other variables constant, we expect an observation within the major job category of "Education, Legal, Community Service, Arts, and Media" to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
 
 ```{r}
 #| label: additive-linear-model-glance
@@ -386,12 +386,12 @@ $$
 \end{aligned}
 $$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average.
-This makes sense given the well-known disparities in women's wages in STEM fields.
-Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is "Computer, Engineering, and Science" will be 90.9%, on average.
+This makes sense, given the well-known disparities in women's wages in STEM fields.
+Holding all other variables constant, for every additional percentage point of female employees in a "Computer, Engineering, and Science" category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
 This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
 The intercept and slope adjustments for non-baseline major job categories are given above.
-For our three male-majority job categories of interested, we have written the simplified equations below.
+For our three male-majority job categories of interest, we have written the simplified equations below.
 Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$ Natural Resources, Construction, and Maintenance: $$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$ Production, Transportation, and Material Moving: $$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
 
 ```{r}
@@ -409,10 +409,10 @@ Because the $Adjusted~R^2$ of the interaction model is the highest, we have deci
 
 **Hypothesis Test Using the Interaction Model**
 
-Our null hypothesis is that female wage as a percent of male wage is independent to both the percent of females in the workforce, the major job category, and the interaction between these predictor variables.
-Our alternative hypothesis is that there is a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages.
+Our null hypothesis, $H_0$, is that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables.
+Our alternative hypothesis, $H_1$, is that there is a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages.
 
-The p-value is 0, which means that we should reject the null hypothesis as assuming the null hypothesis is true, the probability of observing what we did is 0.
+The p-value is 0, which means that we should reject the null hypothesis; based off our analysis, assuming the null hypothesis is true, the probability of observing what we did is 0.
 
 ```{r}
 #| label: hypothesis-testing
