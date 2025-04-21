@@ -11,9 +11,7 @@ Our research aims to analyze how women are marginalized in various job settings,
 
 ## Introduction and data
 
-The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
-Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective.
-We are interested in how gender pay gaps vary across time from 2013 to 2016, varying percentages of female representation in the workforce, and specific major job categories, such as the Management, Business, and Financial sector.
+The gender pay gap has always been a relevant issue for women seeking equal workplace rights. The disparities in wages are unfair, and accumulate to women only being able to save 70% as much as men on social security, on average (The Simple, n.d.). Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective. In two decades, the gender pay gap has only narrowed by 4%, with women earning 81% as much as men in 2003 and 85% in 2024 (Fry & Aragão, 2025). The data that we investigate in this study measures the pay gap for four years in between. The gender pay gap is large and slowly moving, with estimations that it will take between 63 and 134 years to close (Holder 2025, The Gender, n.d.). We are interested in how gender pay gaps vary across time from 2013 to 2016, varying percentages of female representation in the workforce, and specific major job categories, such as the Management, Business, and Financial sectors.
 
 We hypothesize that major job categories that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
 Our research question asks, to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?
