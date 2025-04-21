@@ -64,13 +64,14 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
-In order to begin exploring the data, we created the following three visualizations to understand which career categories show the most wage inequality, how gender representation varies by wage category, and how the variation in how much women are paid compared to men is shown. 
+In order to begin exploring the data, we created the following three visualizations to understand which career categories show the most wage inequality, how gender representation varies by wage category, and how the variation in how much women are paid compared to men is shown.
 
 The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
 
-Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers. We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
+Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers.
+We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
 
-*******ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT*******
+\*\*\*\*\*\*\*ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT\*\*\*\*\*\*\*
 
 ```{r}
 #| label: scatterplot-wage-percentage-male
@@ -102,7 +103,9 @@ jobs_gender |>
   count()
 ```
 
-Figure 2 shows __________. There is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
+Figure 2 shows \_\_\_\_\_\_\_\_\_\_.
+There is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field.
+However, the careers in sales/office, healthcare, and education are female-dominated.
 
 ```{r}
 #| label: earnings-job-category
@@ -127,9 +130,10 @@ Male-dominated workforces",
   )
 ```
 
-********* ASK DOM IF WE NEED THIS VISUALIZATION TOO AND GENERALLY WHAT ELSE WE SHOULD INCLULDE FOR EDA*******
+\*\*\*\*\*\*\*\*\* ASK DOM IF WE NEED THIS VISUALIZATION TOO AND GENERALLY WHAT ELSE WE SHOULD INCLULDE FOR EDA\*\*\*\*\*\*\*
 
 The final visualization displays that most women earn under 90% of a man's wage.
+
 ```{r}
 #| label: histogram-percent-wage-male
 #| fig-asp: 0.5
@@ -159,7 +163,8 @@ We have made percent_female and wage_percent_of_male into decimals rather than p
 
 Finally, We renamed the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
 
-We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories. We also predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
+We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories.
+We also predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
 
 ## Methodology
 
@@ -185,6 +190,9 @@ Our first model is a simple linear regression model that predicts the female wag
 Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category.
 Our third model is an interaction model between the percentage of the workforce that is female and the major job category.
 EXPLAIN WHY FOR EACH ----- Ellie
+
+We then selected the model with the highest $Adjusted~R^2$ and performed hypothesis testing on it.
+We thought hypothesis testing was appropriate to answer the question of whether greater representation of females in the workforce is correlated with higher female wages as a percent of male wages independent of and across all job categories as there are two competing claims: $H_0$ is that there is no relationship between the variables and $H_1$ is that there is a relationship between the variables.
 
 SHOW HOW WE ARRIVED AT THE FINAL MODEL!!!
 
@@ -289,13 +297,16 @@ $$
 $$
 
 Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 85.3%, on average.
-Holding all other variables constant, for every additional percentage point of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 5.3 percentage points. The intercept adjustments for non-baseline major job categories are given above. Holding all other variables constant, we expect an observation within the major job category of Education, Legal, Community Service, Arts, and Media to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
+Holding all other variables constant, for every additional percentage point of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 5.3 percentage points.
+The intercept adjustments for non-baseline major job categories are given above.
+Holding all other variables constant, we expect an observation within the major job category of Education, Legal, Community Service, Arts, and Media to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
 
 ```{r}
 #| label: additive-linear-model-glance
 #| message: false
 glance(additive_linear_model)
 ```
+
 $Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
 
 **Model 3**
@@ -354,22 +365,20 @@ $$
 &\quad +0.302 \times percent~female~workforce * Sales~and~Office \\
 &\quad +0.171 \times percent~female~workforce * Service \\
 \end{aligned}
-$$
-Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average. This makes sense given the well-known disparities in women's wages in STEM fields.
-Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points. This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages. The intercept and slope adjustments for non-baseline major job categories are given above. 
+$$Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average.
+This makes sense given the well-known disparities in women's wages in STEM fields.
+Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
+This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
+The intercept and slope adjustments for non-baseline major job categories are given above.
 For our three male-majority job categories of interested, we have written the simplified equations below.
-Computer, Engineering, and Science:
-$$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$
-Natural Resources, Construction, and Maintenance:
-$$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$
-Production, Transportation, and Material Moving:
-$$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
+Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$ Natural Resources, Construction, and Maintenance: $$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$ Production, Transportation, and Material Moving: $$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
 
 ```{r}
 #| label: interaction-linear-model-glance
 #| eval: false
 glance(interaction_linear_model)
 ```
+
 $Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a percent of male wage is explained by the interaction between the percent of females in the workforce and the major job category.
 
 *Selection of Linear Model*
@@ -377,6 +386,11 @@ $Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a perce
 Because the $Adjusted~R^2$ of the interaction model is the highest, we have decided to select this model for further analysis.
 
 *Hypothesis Test Using the Interaction Model*
+
+Our null hypothesis is that female wage as a percent of male wage is independent to both the percent of females in the workforce and the major job category.
+Our alternative hypothesis is that there is a relationship between the variables.
+
+The p-value is 0, which means that we should reject the null hypothesis as assuming the null hypothesis is true, the probability of observing what we did is 0.
 
 ```{r}
 #| label: hypothesis-testing
