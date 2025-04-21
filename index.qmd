@@ -263,7 +263,7 @@ For every additional percentage point in percent of female employees in the work
 #| label: r2-model1
 #| eval: false
 #| message: FALSE
-glance(simple_linear_fit)
+#glance(simple_linear_fit)
 ```
 
 $Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
