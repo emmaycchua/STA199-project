@@ -20,7 +20,7 @@ The gender pay gap is large and slowly moving, with estimations that it will tak
 We are interested in how gender pay gaps vary across time from 2013 to 2016, by varying percentages of female representation in the workforce, and by specific major job categories, such as the Management, Business, and Financial sectors.
 
 We hypothesize that major job categories that tend to be “male-dominated” will have a more significant male-female pay gap and fewer women working in that career.
-Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?**
+Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?** 
 
 We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), percentage of females in the workforce (`percent_female`), and year of data collection ranging from 2013 to 2016 (`year`).
 
