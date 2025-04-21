@@ -396,7 +396,7 @@ Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.
 #| label: interaction-linear-model-glance
 #| message: FALSE
 #| eval: false
-glance(interaction_linear_model)
+#glance(interaction_linear_model)
 ```
 
 $Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a percent of male wage is explained by the interaction between the percent of females in the workforce and the major job category.
