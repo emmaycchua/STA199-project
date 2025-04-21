@@ -261,7 +261,7 @@ For every additional percentage point in percent of female employees in the work
 ```
 
 $Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
-$Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors.
+$Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors. 
 
 **Model 2**
 
