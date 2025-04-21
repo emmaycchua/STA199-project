@@ -87,7 +87,7 @@ In order to begin exploring the data, we created the following three visualizati
 The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
 
 Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers.
-We also learned that computer, engineering, and scinece professions have the least versatility in wage inequality.
+We also learned that computer, engineering, and science professions have the least versatility in wage inequality.
 
 \*\*\*\*\*\*\*ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT\*\*\*\*\*\*\*
 
