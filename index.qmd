@@ -362,11 +362,11 @@ glance(interaction_linear_model)
 
 $Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a percent of male wage is explained by the interaction between the percent of females in the workforce and the major job category.
 
-*Selection of Linear Model*
+**Selection of Linear Model**
 
 Because the $Adjusted~R^2$ of the interaction model is the highest, we have decided to select this model for further analysis.
 
-*Hypothesis Test Using the Interaction Model*
+**Hypothesis Test Using the Interaction Model**
 
 Our null hypothesis is that female wage as a percent of male wage is independent to both the percent of females in the workforce and the major job category.
 Our alternative hypothesis is that there is a relationship between the variables.
