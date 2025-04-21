@@ -250,7 +250,6 @@ Wage inequality vs. gender representation in the workforce",
 simple_linear_fit <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female, data = jobs_gender)
 
-tidy(simple_linear_fit)
 ```
 
 $$\widehat{wage~percent~of~male} = 0.821 + 0.043 \times percent~female~workforce$$
@@ -277,7 +276,7 @@ Considering how the distribution of female wages as a percent of male wages (see
 #| message: FALSE
 additive_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female + major_category, data = jobs_gender)
-tidy(additive_linear_model)
+
 ```
 
 ```{r}
@@ -327,7 +326,8 @@ Holding all other variables constant, we expect an observation within the major 
 ```{r}
 #| label: additive-linear-model-glance
 #| message: FALSE
-glance(additive_linear_model)
+#| echo: FALSE
+#glance(additive_linear_model)
 ```
 
 $Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
@@ -366,7 +366,7 @@ Interaction model of wage inequality vs. gender differences in workforce",
 #| message: FALSE
 interaction_linear_model <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female * major_category, data = jobs_gender)
-tidy(interaction_linear_model)
+
 ```
 
 $$
@@ -421,6 +421,8 @@ The p-value is 0, which means that we should reject the null hypothesis as assum
 ```{r}
 #| label: hypothesis-testing
 #| message: FALSE
+#| echo: FALSE
+#| warning: FALSE
 
 observed_fit <- jobs_gender |>
   specify(wage_percent_of_male ~ percent_female * major_category) |>
@@ -434,7 +436,7 @@ null_dist <- jobs_gender |>
   generate(reps = 100, type = "permute") |>
   fit()
 
-null_dist |>
+null_dist_p_vals <- null_dist |>
   get_p_value(obs_stat = observed_fit, direction = "two-sided")
 ```
 
