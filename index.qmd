@@ -91,7 +91,7 @@ Based on the following visualization, we observed that all observations where wo
 We also learned that computer, engineering, and science professions have the least versatility in wage inequality.
 
 ```{r}
-#| label: scatterplot-wage-percentage-male
+#| label: boxplot-wage-percentage-male
 #| fig-asp: 0.5
 #| fig-height: 8
 jobs_gender |>
@@ -114,6 +114,7 @@ Distribution of female wages as percent of male wages",
 Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
 The following table demonstrates that, regardless of year, the amount of occupations showing male dominated earnings in this study remains around 300, and that occupations with female dominated earnings, while showing a slight increase over time, are still under 11.
 Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
+*Table 1*
 
 ```{r}
 #| label: eda-male-dom-earnings
@@ -165,12 +166,12 @@ Male-dominated workforces",
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed. The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages. The median female wage as a percent of male wage is 85.2% with a standard deviation of 9.4%.
+Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed. The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages. The median female wage as a percent of male wage is 85.2% with a standard deviation of 9.4% (see Table 2).
 
 ```{r}
 #| label: histogram-percent-wage-male
-#| fig-asp: 0.6
-#| fig-width: 10
+#| fig-height: 4
+#| fig-width: 6
 jobs_gender |>
   ggplot(aes(x = wage_percent_of_male)) +
   geom_histogram(binwidth = 0.025) +
@@ -182,7 +183,9 @@ Distribution of female wages as a percent of male wages",
     y = "Count"
   ) +
   theme_minimal()
-
+```
+*Table 2*
+```{r}
 eda_wage_gap <- jobs_gender |>
   summarize(
     median_wage_gap = median(wage_percent_of_male),
@@ -196,24 +199,16 @@ We also predict the job categories with the highest proportion of observations t
 
 ## Methodology
 
-We chose to do an exploratory analysis first to better understand the relationships between variables.
-We created a bar chart that shows the proportions of workforces that do or do not have a median male wage higher than median female wages that is dodged based on the major job category.
-EXPLAIN BRIEFLY WHY
+We chose to do an exploratory analysis first to better understand the relationships between variables. Figure 1 displays the distributions of female wages as a percent of male wages across major job categories, suggesting the type of job could be a useful predictor of wage gaps due to the great variation in median and 25th to 75th quartiles. Figure 2 highlighted our job categories of interest for our hypotheses: "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving". Figure 3 displays our response variable of interest.
 
-We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`.
-We did not choose to use `year` as a variable because the scatterplot did not indicate that it could be a promising predictor.
-We created a scatterplot that shows the female wages as a percent of male wages on the y-axis and the percentage of the workforce that is female on the x-axis with lines to designate the trends based on year (2013 vs. 2016) as we hypothesize that the percentage of the workforce that is female will be a major predictor of wage gaps.
-
-We created three linear regression models.
+We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`. We chose to do linear models because our response variable is numerical and we have numerical and categorical predictor variables. As we will discuss, Figure 4 demonstrates that a linear model is appropriate due to the moderately strong, positive, and linear relationship between our response variable and the percent of females in the workforce. 
 Our first model is a simple linear regression model that predicts the female wages as a percent of male wages based on the percent of the workforce that is female.
 Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category.
-Our third model is an interaction model between the percentage of the workforce that is female and the major job category.
-EXPLAIN WHY FOR EACH ----- Ellie
+Our third model is an interaction model between the percentage of the workforce that is female and the major job category. Scatterplots visualize these relationships and the fitted lines.
+We did not choose to use `year` as a variable because Table 1 did not indicate that it could be a promising predictor.
 
-We then selected the model with the highest $Adjusted~R^2$ and performed hypothesis testing on it.
+We then selected the model with the highest $Adjusted~R^2$ and performed a hypothesis test on it.
 We thought hypothesis testing was appropriate to answer the question of whether greater representation of females in the workforce is correlated with higher female wages as a percent of male wages independent of and across all job categories as there are two competing claims: $H_0$ is that there is no relationship between the variables and $H_1$ is that there is a relationship between the variables.
-
-SHOW HOW WE ARRIVED AT THE FINAL MODEL!!!
 
 ## Results
 
@@ -224,8 +219,8 @@ Given this, we decided to fit a simple linear model with the percent of the fema
 
 ```{r}
 #| label: scatterplot-simple-linear-model
-#| fig-asp: 0.6
-#| fig-width: 10
+#| fig-height: 4
+#| fig-width: 6
 
 ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male)) +
   geom_point(alpha = 0.5) +
@@ -242,6 +237,7 @@ Wage inequality vs. gender representation in the workforce",
 ```{r}
 #| label: earnings-gap-workforce-gap-years-linear
 #| message: FALSE
+#| echo: false
 
 simple_linear_fit <- linear_reg() |>
   fit(wage_percent_of_male ~ percent_female, data = jobs_gender)
@@ -396,7 +392,7 @@ Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.
 
 ```{r}
 #| label: interaction-linear-model-glance
-#| message: FALSE
+#| echo: FALSE
 #| eval: false
 glance(interaction_linear_model)
 ```
