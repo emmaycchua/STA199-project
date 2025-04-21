@@ -127,7 +127,7 @@ Male-dominated workforces",
   theme_minimal() +
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.margin = margin(t = 10, r = 12, b = 10, l = 30)
+    plot.margin = margin(t = 10, r = 15, b = 10, l = 30)
   )
 ```
 
