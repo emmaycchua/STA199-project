@@ -24,6 +24,7 @@ After our data cleaning, we have considered the following variables to be import
 
 ```{r}
 #| label: load-packages
+#| message: FALSE
 library(tidyverse)
 library(tidymodels)
 library(ggplot2)
@@ -347,7 +348,9 @@ $$
 &\quad +0.302 \times percent~female~workforce * Sales~and~Office \\
 &\quad +0.171 \times percent~female~workforce * Service \\
 \end{aligned}
-$$Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average.
+$$
+
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average.
 This makes sense given the well-known disparities in women's wages in STEM fields.
 Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
 This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
