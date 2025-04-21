@@ -4,6 +4,7 @@ subtitle: 2013-2016 trends in job category and female workforce representation
 execute:
   echo: false
   message: false
+  warning: false
 ---
 
 Our research aims to analyze how women are marginalized in various job settings, specifically regarding how pay gaps fluctuate based on the type of job and how male-dominated a particular workforce is.
@@ -134,7 +135,23 @@ However, the careers in sales/office, healthcare, and education are female-domin
 #| label: earnings-job-category
 #| fig-asp: 0.6
 #| fig-width: 10
-ggplot(jobs_gender, aes(x = major_category, fill = male_dom_workforce)) +
+
+jobs_gender_plot <- jobs_gender |>
+  mutate(
+    major_category = fct_relevel(
+      major_category,
+      "Service",
+      "Sales and Office",
+      "Production, Transportation, and Material Moving",
+      "Natural Resources, Construction, and Maintenance",
+      "Management, Business, and Financial",
+      "Healthcare Practitioners and Technical",
+      "Education, Legal, Community Service, Arts, and Media",
+      "Computer, Engineering, and Science"
+      )
+  )
+
+ggplot(jobs_gender_plot, aes(x = major_category, fill = male_dom_workforce)) +
   geom_bar(position = "fill") +
   geom_hline(yintercept = 0.5, linetype = "dashed", color = "black") +
   labs(
@@ -147,10 +164,7 @@ Male-dominated workforces",
   ) +
   scale_fill_brewer(palette = "Set1") +
   theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.margin = margin(t = 10, r = 15, b = 10, l = 30)
-  )
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 \*\*\*\*\*\*\*\*\* ASK DOM IF WE NEED THIS VISUALIZATION TOO AND GENERALLY WHAT ELSE WE SHOULD INCLULDE FOR EDA\*\*\*\*\*\*\*
@@ -399,8 +413,8 @@ Because the $Adjusted~R^2$ of the interaction model is the highest, we have deci
 
 **Hypothesis Test Using the Interaction Model**
 
-Our null hypothesis is that female wage as a percent of male wage is independent to both the percent of females in the workforce and the major job category.
-Our alternative hypothesis is that there is a relationship between the variables.
+Our null hypothesis is that female wage as a percent of male wage is independent to both the percent of females in the workforce, the major job category, and the interaction between these predictor variables.
+Our alternative hypothesis is that there is a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages.
 
 The p-value is 0, which means that we should reject the null hypothesis as assuming the null hypothesis is true, the probability of observing what we did is 0.
 
