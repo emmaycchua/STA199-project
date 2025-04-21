@@ -72,7 +72,6 @@ Based on the following visualization, we observed that all observations where wo
 
 *******ASK DOM ABOUT HOW TO FLIP IT AGAIN TO KEEP IT CONSISTENT*******
 
-
 ```{r}
 #| label: scatterplot-wage-percentage-male
 #| fig-asp: 0.5
@@ -94,7 +93,7 @@ Distribution of female wages as percent of male wages",
   axis.text.y = element_blank())
 ```
 
-Male-dominated fields will be specified through the creation of two binary variables: male_dom_workforce labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and male_dom_earnings labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
+Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
 
 ```{r}
 #| label: eda-male-dom-earnings
@@ -122,7 +121,10 @@ Male-dominated workforces",
   ) +
   scale_fill_brewer(palette = "Set1") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.margin = margin(t = 10, r = 12, b = 10, l = 30)
+  )
 ```
 
 ********* ASK DOM IF WE NEED THIS VISUALIZATION TOO AND GENERALLY WHAT ELSE WE SHOULD INCLULDE FOR EDA*******
@@ -157,7 +159,7 @@ We have made percent_female and wage_percent_of_male into decimals rather than p
 
 Finally, We renamed the `total_earnings`, `total_earnings_male`, and `total_earnings_female` columns to `median_earnings`, `median_earnings_male`, and `median_earnings_female` given that the word "total" was misleading in communicating that the column represented the median earnings rather than all earnings for each group.
 
-We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories. We also predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Management, Business, and Financial", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
+We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories. We also predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
 
 ## Methodology
 
@@ -344,20 +346,24 @@ $$
 &\quad -0.113 \times Production,~Transportation,~and~Material~Moving \\
 &\quad -0.168 \times Sales~and~Office \\
 &\quad -0.059 \times Service \\
-&\quad +0.222 \times percent~female~workforce \times Education,~Legal,~Community~Service,~Arts,~and~Media \\
-&\quad +0.403 \times percent~female~workforce \times Healthcare~Practitioners~and~Technical \\
-&\quad +0.079 \times percent~female~workforce \times Management,~Business,~and~Financial \\
-&\quad +0.075 \times percent~female~workforce \times Natural~Resources,~Construction,~and~Maintenance \\
-&\quad +0.128 \times percent~female~workforce \times Production,~Transportation,~and~Material~Moving \\
-&\quad +0.302 \times percent~female~workforce \times Sales~and~Office \\
-&\quad +0.171 \times percent~female~workforce \times Service \\
+&\quad +0.222 \times percent~female~workforce * Education,~Legal,~Community~Service,~Arts,~and~Media \\
+&\quad +0.403 \times percent~female~workforce * Healthcare~Practitioners~and~Technical \\
+&\quad +0.079 \times percent~female~workforce * Management,~Business,~and~Financial \\
+&\quad +0.075 \times percent~female~workforce * Natural~Resources,~Construction,~and~Maintenance \\
+&\quad +0.128 \times percent~female~workforce * Production,~Transportation,~and~Material~Moving \\
+&\quad +0.302 \times percent~female~workforce * Sales~and~Office \\
+&\quad +0.171 \times percent~female~workforce * Service \\
 \end{aligned}
 $$
 Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is Computer, Engineering, and Science will be 90.9%, on average. This makes sense given the well-known disparities in women's wages in STEM fields.
-Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points. This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages. The intercept and slope adjustments for non-baseline major job categories are given above. The following is an example of a simplified equation if the major job category is Education, Legal, Community Service, Arts, and Media:
-$$\widehat{wage~percent~of~male} = (0.909 - 0.094) + (-0.138 + 0.222) \times percent~female~workforce$$
-$$\widehat{wage~percent~of~male} = 0.815 + 0.084 \times percent~female~workforce$$
-Holding all other variables constant, we expect an observation within the major job category of Education, Legal, Community Service, Arts, and Media to have a female wage as a percent of male wage that is higher, on average, by 8.4 percentage points. This finding is consistent with our idea that a female-stereotyped field like education would have higher female wages as a percent of male wages.
+Holding all other variables constant, for every additional percentage point of female employees in a Computer, Engineering, and Science category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points. This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages. The intercept and slope adjustments for non-baseline major job categories are given above. 
+For our three male-majority job categories of interested, we have written the simplified equations below.
+Computer, Engineering, and Science:
+$$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$
+Natural Resources, Construction, and Maintenance:
+$$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$
+Production, Transportation, and Material Moving:
+$$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
 
 ```{r}
 #| label: interaction-linear-model-glance
