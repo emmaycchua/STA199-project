@@ -100,9 +100,10 @@ Male-dominated fields will be specified through the creation of two binary varia
 
 ```{r}
 #| label: eda-male-dom-earnings
-jobs_gender |>
+eda_male_dom_earnings <- jobs_gender |>
   group_by(male_dom_earnings, year) |>
   count()
+kableExtra::kable(eda_male_dom_earnings)
 ```
 
 Figure 2 shows the proportion of occupations within the different major categories that reported having a male or female dominated work force. The dashed line shows the 50% mark in the proportions, so any bar showing the blue male-majority line surpassing the dashed line has majority male-dominated work forces. The graph shows that there is the least amount of female representation across observations in the job categories of natural resources, construction, and maintenance category making it a male dominated field. However, the careers in sales/office, healthcare, and education are female-dominated.
