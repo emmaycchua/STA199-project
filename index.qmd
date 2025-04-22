@@ -11,13 +11,19 @@ Our research aims to analyze how women are marginalized in various job settings,
 
 ## Introduction and Exploratory Data
 
-The gender pay gap has always been a relevant issue for women seeking equal workplace rights. As will be mentioned later, our data only spans from 2013-2016, yet gender pay discrepancies are nothing new. The gender pay gap narrowed a mere 4% from 2003 to 2024 generally, with women earning 19% less than men in 2003 and 15% less in 2024 (Fry & Aragão, 2025). The closing of this wage gap is slow-moving, and strides towards resolution and full equality do not seem close. Some studies estimate it taking anywhere between 63 to 134 years for women to earn as much as men for the same job (Holder 2025, The Gender). Not only are these discrepencies unfair in the short term, but they also impact working women post-retirement: when paid less, women end up receiving less in Social Security and pensions and up to 30% less than men in retirement funds for the same job and number of years worked (The Simple). 
-With the government’s recent changes to DEI policies, understanding workplace wage equality (or lack thereof) from a statistical perspective has never been more crucial to making strides in a progressive, educated direction. Thus, our research aims to explore how gender pay gaps vary by percentages of female representation in the workforce, and by specific major job categories (such as the Management, Business, and Financial sector).
+The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
+As will be mentioned later, our data only spans from 2013-2016, yet gender pay discrepancies are nothing new.
+The gender pay gap narrowed a mere 4% from 2003 to 2024 generally, with women earning 19% less than men in 2003 and 15% less in 2024 (Fry & Aragão, 2025).
+The closing of this wage gap is slow-moving, and strides towards resolution and full equality do not seem close.
+Some studies estimate it taking anywhere between 63 to 134 years for women to earn as much as men for the same job (Holder 2025, The Gender).
+Not only are these discrepencies unfair in the short term, but they also impact working women post-retirement: when paid less, women end up receiving less in Social Security and pensions and up to 30% less than men in retirement funds for the same job and number of years worked (The Simple).
+With the government’s recent changes to DEI policies, understanding workplace wage equality (or lack thereof) from a statistical perspective has never been more crucial to making strides in a progressive, educated direction.
+Thus, our research aims to explore how gender pay gaps vary by percentages of female representation in the workforce, and by specific major job categories (such as the Management, Business, and Financial sector).
 
+Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?**
 
-Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?** 
-
-We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`). To clarify-- if women make 90 cents for every 1 dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90.
+We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`).
+To clarify-- if women make 90 cents for every 1 dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90.
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
@@ -115,6 +121,7 @@ The following table demonstrates that, regardless of year, the amount of occupat
 Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
 
 *Table 1*
+
 ```{r}
 #| label: eda-male-dom-earnings
 #| message: FALSE
@@ -165,7 +172,9 @@ Male-dominated workforces",
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed. The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages. The median female wage as a percent of male wage is 85.2% with a standard deviation of 9.4%.
+Figure 3 displays the distribution of female wages as a percent of male wages across all workforces observed.
+The unimodal, left-skewed distribution is concentrated below the dashed line, which indicates the ideal 1:1 ratio of female to male wages.
+The median female wage as a percent of male wage is 85.2% with a standard deviation of 9.4%.
 
 ```{r}
 #| label: histogram-percent-wage-male
@@ -196,16 +205,23 @@ eda_wage_gap <- jobs_gender |>
 kableExtra::kable(eda_wage_gap)
 ```
 
-We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories. More specifically, we predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
+We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories.
+More specifically, we predict the job categories with the highest proportion of observations that were male-majority workforces (see Figure 2), including the categories of "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving", will have lower female wages as a percent of male wages.
 
 ## Methodology
 
-We chose to do an exploratory analysis first to better understand the relationships between variables. Figure 1 displays the distributions of female wages as a percent of male wages across major job categories, suggesting the type of job could be a useful predictor of wage gaps due to the great variation in median and 25th to 75th quartiles. Figure 2 highlighted our job categories of interest for our hypotheses: "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving". Figure 3 displays our response variable of interest.
+We chose to do an exploratory analysis first to better understand the relationships between variables.
+Figure 1 displays the distributions of female wages as a percent of male wages across major job categories, suggesting the type of job could be a useful predictor of wage gaps due to the great variation in median and 25th to 75th quartiles.
+Figure 2 highlighted our job categories of interest for our hypotheses: "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving".
+Figure 3 displays our response variable of interest.
 
-We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`. We chose to do linear models because our response variable is numerical and we have numerical and categorical predictor variables. As we will discuss, Figure 4 demonstrates that a linear model is appropriate due to the moderately strong, positive, and linear relationship between our response variable and the percent of females in the workforce. 
+We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`.
+We chose to do linear models because our response variable is numerical and we have numerical and categorical predictor variables.
+As we will discuss, Figure 4 demonstrates that a linear model is appropriate due to the moderately strong, positive, and linear relationship between our response variable and the percent of females in the workforce.
 Our first model is a simple linear regression model that predicts the female wages as a percent of male wages based on the percent of the workforce that is female.
 Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category.
-Our third model is an interaction model between the percentage of the workforce that is female and the major job category. Scatterplots visualize these relationships and the fitted lines.
+Our third model is an interaction model between the percentage of the workforce that is female and the major job category.
+Scatterplots visualize these relationships and the fitted lines.
 We did not choose to use `year` as a variable because Table 1 did not indicate that it could be a promising predictor.
 
 We then selected the model with the highest $Adjusted~R^2$ and performed a hypothesis test on it.
@@ -258,7 +274,7 @@ For every additional percentage point in percent of female employees in the work
 ```
 
 $Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
-$Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors. 
+$Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors.
 
 **Model 2**
 
@@ -387,13 +403,7 @@ Based on the linear model above, we predict that female employee wages as a perc
 This makes sense, given the well-known disparities in women's wages in STEM fields.
 Holding all other variables constant, for every additional percentage point of female employees in a "Computer, Engineering, and Science" category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
 This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
-The intercept and slope adjustments for non-baseline major job categories are given above.
-<<<<<<< HEAD
-For our three male-majority job categories of interested, we have written the simplified equations below.
-
-=======
-For our three male-majority job categories of interest, we have written the simplified equations below.
->>>>>>> b500faca0588894f7529a25ff873c8b61a932c77
+The intercept and slope adjustments for non-baseline major job categories are given above.For our three male-majority job categories of interest, we have written the simplified equations below.
 Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$ Natural Resources, Construction, and Maintenance: $$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$ Production, Transportation, and Material Moving: $$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
 
 ```{r}
@@ -440,18 +450,28 @@ null_dist_p_vals <- null_dist |>
 
 ## Discussion
 
-To reiterate, our research aims to explore the extent to which the gender pay gap varies between male-dominated and female-dominated workforces and across major job categories. We compared three models’ adjusted $R^2$ values to determine their ability to predict female employee wages as a percent of male wages. All of the models were linear, as our response variable (`wage_percent_male`, female’s wages as a percent of male’s wages) is  a continuous response variable that would not be suited by a logistic model. Ultimately, we chose Model 3 to conduct our hypothesis testing, as it had the highest adjusted $R^2$, indicating it was the better fit for the model of the data while also accounting for the number of predictors in the model. 
+To reiterate, our research aims to explore the extent to which the gender pay gap varies between male-dominated and female-dominated workforces and across major job categories.
+We compared three models’ adjusted $R^2$ values to determine their ability to predict female employee wages as a percent of male wages.
+All of the models were linear, as our response variable (`wage_percent_male`, female’s wages as a percent of male’s wages) is a continuous response variable that would not be suited by a logistic model.
+Ultimately, we chose Model 3 to conduct our hypothesis testing, as it had the highest adjusted $R^2$, indicating it was the better fit for the model of the data while also accounting for the number of predictors in the model.
 
-	From the p-values we obtained from our hypothesis testing and using a threshold value of 0.05, we reject the null hypothesis that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables. By rejecting the null, we are concluding that— while not necessarily a causal relationship– there *is* a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages. This relationship varies by job category.
-	
-While we attempted to minimize limitations in our data and analysis, some were unavoidable. For one, the time period of data collection that we used in our analysis is between 9 and 13 years old. As discussed in the introduction, pay gaps have not historically changed much over the years, but it could nonetheless be beneficial for the data used in our analysis to be within the last 10 years for the most accurate, up-to-date analysis possible. Another limitation of our data is the fact that only full-time jobs were reported; this leaves out a possibly interesting area of study including part-time job pay gap trends. Finally, as discussed in our introduction, some data points have “N/A” values for the `wage_percent_male` variable, which may have limited certain analyses– however, with the number of these being so low in comparison to the total number of observations, this limitation should not largely impact the outcomes of our analysis.
+```         
+From the p-values we obtained from our hypothesis testing and using a threshold value of 0.05, we reject the null hypothesis that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables. By rejecting the null, we are concluding that— while not necessarily a causal relationship– there *is* a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages. This relationship varies by job category.
+```
 
-	To improve our data, we think it could be beneficial to do a more in-depth exploratory data analysis to determine which transformations could make the data best fit a linear model. We also could improve our data by estimating “N/A” values instead of completely ignoring them to help us reach the most accurate conclusions.
-	
-	Some examples of potential issues related to the reliability and validity of our data include- but are not limited to-  recall bias, sampling error, changes in survey design, and coding bias. With data being from the Census Bureau and the Bureau of Labor, responses were likely recorded using a survey. Surveys can lead to multiple issues with reliability: for one, individuals who participated may experience recall bias, mis-reporting their income or other factors of data. Further, not *all* working American people were included in this dataset, so while it may be generalizable, there is a chance for sampling error/a misrepresentation of the wider population from this dataset. Changes in survey design from 2013-2016 could also lead to varying replies from respondents, which also impacts the reliability of the data. Overall, these impacts on reliability and validity are possible and unavoidable in the data we used for our analysis.
-	
-	In the future, we think analyzing the effects of confounding factors such as race, age, and whether or not individuals were full- or part-time workers could be interesting. Gender may not be the only variable with discrepancies in pay, and it would be interesting to see how other demographic data impacts results. Further, we also think analyzing a more longitudinal dataset (i.e., from 2013 to present, 2025) could be intriguing in seeing how the gender pay gap has changed over time, if at all.
+While we attempted to minimize limitations in our data and analysis, some were unavoidable.
+For one, the time period of data collection that we used in our analysis is between 9 and 13 years old.
+As discussed in the introduction, pay gaps have not historically changed much over the years, but it could nonetheless be beneficial for the data used in our analysis to be within the last 10 years for the most accurate, up-to-date analysis possible.
+Another limitation of our data is the fact that only full-time jobs were reported; this leaves out a possibly interesting area of study including part-time job pay gap trends.
+Finally, as discussed in our introduction, some data points have “N/A” values for the `wage_percent_male` variable, which may have limited certain analyses– however, with the number of these being so low in comparison to the total number of observations, this limitation should not largely impact the outcomes of our analysis.
 
+```         
+To improve our data, we think it could be beneficial to do a more in-depth exploratory data analysis to determine which transformations could make the data best fit a linear model. We also could improve our data by estimating “N/A” values instead of completely ignoring them to help us reach the most accurate conclusions.
+
+Some examples of potential issues related to the reliability and validity of our data include- but are not limited to-  recall bias, sampling error, changes in survey design, and coding bias. With data being from the Census Bureau and the Bureau of Labor, responses were likely recorded using a survey. Surveys can lead to multiple issues with reliability: for one, individuals who participated may experience recall bias, mis-reporting their income or other factors of data. Further, not *all* working American people were included in this dataset, so while it may be generalizable, there is a chance for sampling error/a misrepresentation of the wider population from this dataset. Changes in survey design from 2013-2016 could also lead to varying replies from respondents, which also impacts the reliability of the data. Overall, these impacts on reliability and validity are possible and unavoidable in the data we used for our analysis.
+
+In the future, we think analyzing the effects of confounding factors such as race, age, and whether or not individuals were full- or part-time workers could be interesting. Gender may not be the only variable with discrepancies in pay, and it would be interesting to see how other demographic data impacts results. Further, we also think analyzing a more longitudinal dataset (i.e., from 2013 to present, 2025) could be intriguing in seeing how the gender pay gap has changed over time, if at all.
+```
 
 ## References
 
@@ -481,7 +501,7 @@ Retrieved April 21, 2025, from https://www.pewresearch.org/social-trends/2023/03
 Occupational employment and wage statistics.
 (n.d.).
 U.S.
-Bureau of Labor Statistics. 
+Bureau of Labor Statistics.
 Retrieved April 21, 2025, from https://www.bls.gov/oes/oes_ques.htm
 
 The simple truth about the gender pay gap.
