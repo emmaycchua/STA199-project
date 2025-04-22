@@ -9,19 +9,15 @@ execute:
 
 Our research aims to analyze how women are marginalized in various job settings, specifically regarding how pay gaps fluctuate based on the type of job and how male-dominated a particular workforce is.
 
-## Introduction and data
+## Introduction and Exploratory Data
 
-The gender pay gap has always been a relevant issue for women seeking equal workplace rights.
-The disparities in wages are unfair, and accumulate to women only being able to save 70% as much as men on social security, on average (The Simple).
-Given the current political state and changes to DEI policies, this topic is crucial to understand and address from a statistical perspective.
-In two decades, the gender pay gap has only narrowed by 4%, with women earning 81% as much as men in 2003 and 85% in 2024 (Fry & Aragão, 2025).
-The data that we investigate in this study measures the pay gap for four years in between.
-The gender pay gap is large and slowly moving, with estimations that it will take between 63 and 134 years to close (Holder 2025, The Gender).
-We are interested in how gender pay gaps vary by percentages of female representation in the workforce, and by specific major job categories, such as the Management, Business, and Financial sector.
+The gender pay gap has always been a relevant issue for women seeking equal workplace rights. As will be mentioned later, our data only spans from 2013-2016, yet gender pay discrepancies are nothing new. The gender pay gap narrowed a mere 4% from 2003 to 2024 generally, with women earning 19% less than men in 2003 and 15% less in 2024 (Fry & Aragão, 2025). The closing of this wage gap is slow-moving, and strides towards resolution and full equality do not seem close. Some studies estimate it taking anywhere between 63 to 134 years for women to earn as much as men for the same job (Holder 2025, The Gender). Not only are these discrepencies unfair in the short term, but they also impact working women post-retirement: when paid less, women end up receiving less in Social Security and pensions and up to 30% less than men in retirement funds for the same job and number of years worked (The Simple). 
+With the government’s recent changes to DEI policies, understanding workplace wage equality (or lack thereof) from a statistical perspective has never been more crucial to making strides in a progressive, educated direction. Thus, our research aims to explore how gender pay gaps vary by percentages of female representation in the workforce, and by specific major job categories (such as the Management, Business, and Financial sector).
+
 
 Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?** 
 
-We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`). To clarify, if men make $100,000 and women make $90,000 for the same job, then `wage_percent_of_female` will equal 0.90.
+We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`). To clarify-- if women make 90 cents for every 1 dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90.
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
