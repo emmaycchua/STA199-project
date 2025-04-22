@@ -432,10 +432,11 @@ null_dist_p_vals <- null_dist |>
 
 ## Discussion
 
-In this section you’ll include a summary of what you have learned about your research question along with statistical arguments supporting your conclusions.
-In addition, discuss the limitations of your analysis and provide suggestions on ways the analysis could be improved.
-Any potential issues pertaining to the reliability and validity of your data and appropriateness of the statistical analysis should also be discussed here.
-Lastly, this section will include ideas for future work.
+To reiterate, our research aims to explore the extent to which the gender pay gap varies between male-dominated and female-dominated workforces and across major job categories. We compared three models’ adjusted $R^2$ values to determine their ability to predict female employee wages as a percent of male wages. All of the models were linear, as our response variable (`wage_percent_male`, female’s wages as a percent of male’s wages) is  a continuous response variable that would not be suited by a logistic model. Ultimately, we chose Model 3 to conduct our hypothesis testing, as it had the highest adjusted $R^2$, indicating it was the better fit for the model of the data while also accounting for the number of predictors in the model. 
+	From the p-values we obtained from our hypothesis testing and using a threshold value of 0.05, we reject the null hypothesis that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables. By rejecting the null, we are concluding that— while not necessarily a causal relationship– there *is* a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages. This relationship varies by job category, 
+While we attempted to minimize limitations in our data and analysis, some were unavoidable. For one, the time period of data collection that we used in our analysis is between 9 and 13 years old. As discussed in the introduction, pay gaps have not historically changed much over the years, but it could nonetheless be beneficial for the data used in our analysis to be within the last 10 years for the most accurate, up-to-date analysis possible. Another limitation of our data is the fact that only full-time jobs were reported; this leaves out a possibly interesting area of study including part-time job pay gap trends. Finally, as discussed in our introduction, some data points has “N/A” values, which may have limited certain analyses– however, with the number of these being so low, this limitation should not largely impact the outcomes of our analysis.
+	To improve our data, we think it could be beneficial to do a more in-depth exploratory data analysis to determine which transformations could make the data best fit a linear model. We also could improve our data by estimating “N/A” values instead of completely ignoring them to help us reach the most accurate conclusions. 
+
 
 ## References
 
