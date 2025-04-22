@@ -21,7 +21,7 @@ We are interested in how gender pay gaps vary by percentages of female represent
 
 Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?** 
 
-We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`).
+We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`). To clarify, if men make $100,000 and women make $90,000 for the same job, then `wage_percent_of_female` will equal 0.90.
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
