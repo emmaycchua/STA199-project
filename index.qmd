@@ -107,7 +107,7 @@ jobs_gender |>
     title = "Figure 1: 
 Distribution of female wages as percent of male wages",
     subtitle = "by major job category",
-    x = "Female wages as % of male wages",
+    x = "Female wages as a percent of male wages",
     color = "Major category"
   ) +
   scale_color_brewer(palette = "Set1") +
@@ -224,7 +224,7 @@ Our third model is an interaction model between the percentage of the workforce 
 Scatterplots visualize these relationships and the fitted lines.
 We did not choose to use `year` as a variable because Table 1 did not indicate that it could be a promising predictor.
 
-We then selected the model with the highest $Adjusted~R^2$ and performed a hypothesis test on it.
+We then selected the model with the highest $Adjusted~R^2$ and performed a hypothesis test on it using 1000 reps.
 We thought hypothesis testing was appropriate to answer the question of whether greater representation of females in the workforce is correlated with higher female wages as a percent of male wages independent of and across all job categories as there are two competing claims: $H_0$ is that there is no relationship between the variables and $H_1$ is that there is a relationship between the variables.
 
 ## Results
@@ -265,16 +265,6 @@ $$\widehat{wage~percent~of~male} = 0.821 + 0.043 \times percent~female~workforce
 
 Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers will be 82.1%, on average.
 For every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.3 percentage points.
-
-```{r}
-#| label: r2-model1
-#| eval: false
-#| message: FALSE
-#glance(simple_linear_fit)
-```
-
-$Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
-$Adjusted~R^2$ was used in order to compare the effectiveness of the simple model with the following models with multiple predictors.
 
 **Model 2**
 
@@ -331,15 +321,6 @@ Based on the linear model above, we predict that female employee wages as a perc
 Holding all other variables constant, for every additional percentage point of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 5.3 percentage points.
 The intercept adjustments for non-baseline major job categories are given above.
 Holding all other variables constant, we expect an observation within the major job category of "Education, Legal, Community Service, Arts, and Media" to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
-
-```{r}
-#| label: additive-linear-model-glance
-#| message: FALSE
-#| echo: FALSE
-#glance(additive_linear_model)
-```
-
-$Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
 
 **Model 3**
 
@@ -404,8 +385,33 @@ Based on the linear model above, we predict that female employee wages as a perc
 This makes sense, given the well-known disparities in women's wages in STEM fields.
 Holding all other variables constant, for every additional percentage point of female employees in a "Computer, Engineering, and Science" category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
 This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
+The intercept and slope adjustments for non-baseline major job categories are given above.
+
+For our three male-majority job categories of interest, we have written the simplified equations below.
+
 The intercept and slope adjustments for non-baseline major job categories are given above.For our three male-majority job categories of interest, we have written the simplified equations below.
+
 Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$ Natural Resources, Construction, and Maintenance: $$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$ Production, Transportation, and Material Moving: $$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
+
+**Selection of Linear Model**
+
+```{r}
+#| label: r2-model1
+#| eval: false
+#| message: FALSE
+#glance(simple_linear_fit)
+```
+
+For the simple linear model, $Adjusted~R^2=0.012$ means that 1.2% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce.
+
+```{r}
+#| label: additive-linear-model-glance
+#| message: FALSE
+#| echo: FALSE
+#glance(additive_linear_model)
+```
+
+For the additive linear moel, $Adjusted~R^2=0.097$ means that 9.7% of the variation in female wage as a percent of male wage is explained by the percent of females in the workforce and the major job category.
 
 ```{r}
 #| label: interaction-linear-model-glance
@@ -414,9 +420,7 @@ Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.
 #glance(interaction_linear_model)
 ```
 
-$Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a percent of male wage is explained by the interaction between the percent of females in the workforce and the major job category.
-
-**Selection of Linear Model**
+Finally, for the interaction linear model, $Adjusted~R^2=0.144$ means that 14.4% of the variation in female wage as a percent of male wage is explained by the interaction between the percent of females in the workforce and the major job category.
 
 Because the $Adjusted~R^2$ of the interaction model is the highest, we have decided to select this model for further analysis.
 
@@ -442,11 +446,15 @@ set.seed(1234)
 null_dist <- jobs_gender |>
   specify(wage_percent_of_male ~ percent_female * major_category) |>
   hypothesize(null = "independence") |>
-  generate(reps = 500, type = "permute") |>
+  generate(reps = 10, type = "permute") |>
   fit()
 
 null_dist_p_vals <- null_dist |>
   get_p_value(obs_stat = observed_fit, direction = "two-sided")
+```
+
+```{r}
+null_dist_p_vals
 ```
 
 ## Discussion
@@ -456,6 +464,7 @@ We compared three models’ adjusted $R^2$ values to determine their ability to 
 All of the models were linear, as our response variable (`wage_percent_male`, female’s wages as a percent of male’s wages) is a continuous response variable that would not be suited by a logistic model.
 Ultimately, we chose Model 3 to conduct our hypothesis testing, as it had the highest adjusted $R^2$, indicating it was the better fit for the model of the data while also accounting for the number of predictors in the model.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 From the p-values we obtained from our hypothesis testing and using a threshold value of 0.05, we reject the null hypothesis that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables. By rejecting the null, we are concluding that— while not necessarily a causal relationship– there *is* a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages. This relationship varies by job category, and we found it interesting that almost all job categories demonstrated a p-value less than 0.05 (meaning we reject the null). 
 
@@ -468,6 +477,17 @@ To improve our data , we think it could be beneficial to explore any trends in w
 Some examples of potential issues related to the reliability and validity of our data include- but are not limited to-  recall bias, sampling error, changes in survey design, and coding bias. With data being from the Census Bureau and the Bureau of Labor, responses were likely recorded using a survey. Surveys can lead to multiple issues with reliability: for one, individuals who participated may experience recall bias, mis-reporting their income or other factors of data. Further, not *all* working American people were included in this dataset, so while it may be generalizable, there is a chance for sampling error/a misrepresentation of the wider population from this dataset. Overall, these impacts on reliability and validity are possible and unavoidable in the data we used for our analysis.
 	
 In the future, we think analyzing the effects of confounding factors such as race, age, and whether or not individuals were full- or part-time workers could be interesting. Gender may not be the only variable with discrepancies in pay, and it would be interesting to see how other demographic data impacts results. Further, we also think analyzing a more longitudinal dataset (i.e., from 2013 to present, 2025) could be intriguing in seeing how the gender pay gap has changed over time (if at all).
+=======
+From the p-values we obtained from our hypothesis testing and using a threshold value of 0.05, we reject the null hypothesis that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables. By rejecting the null, we are concluding that— while not necessarily a causal relationship– there *is* a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages. This relationship varies by job category.
+	
+While we attempted to minimize limitations in our data and analysis, some were unavoidable. For one, the time period of data collection that we used in our analysis is between 9 and 13 years old. As discussed in the introduction, pay gaps have not historically changed much over the years, but it could nonetheless be beneficial for the data used in our analysis to be within the last 10 years for the most accurate, up-to-date analysis possible. Another limitation of our data is the fact that only full-time jobs were reported; this leaves out a possibly interesting area of study including part-time job pay gap trends. Finally, as discussed in our introduction, some data points have “N/A” values for the `wage_percent_male` variable, which may have limited certain analyses– however, with the number of these being so low in comparison to the total number of observations, this limitation should not largely impact the outcomes of our analysis.
+
+To improve our data, we think it could be beneficial to do a more in-depth exploratory data analysis to determine which transformations could make the data best fit a linear model. We also could improve our data by estimating “N/A” values instead of completely ignoring them to help us reach the most accurate conclusions.
+	
+Some examples of potential issues related to the reliability and validity of our data include- but are not limited to-  recall bias, sampling error, changes in survey design, and coding bias. With data being from the Census Bureau and the Bureau of Labor, responses were likely recorded using a survey. Surveys can lead to multiple issues with reliability: for one, individuals who participated may experience recall bias, mis-reporting their income or other factors of data. Further, not *all* working American people were included in this dataset, so while it may be generalizable, there is a chance for sampling error/a misrepresentation of the wider population from this dataset. Changes in survey design from 2013-2016 could also lead to varying replies from respondents, which also impacts the reliability of the data. Overall, these impacts on reliability and validity are possible and unavoidable in the data we used for our analysis.
+	
+In the future, we think analyzing the effects of confounding factors such as race, age, and whether or not individuals were full- or part-time workers could be interesting. Gender may not be the only variable with discrepancies in pay, and it would be interesting to see how other demographic data impacts results. Further, we also think analyzing a more longitudinal dataset (i.e., from 2013 to present, 2025) could be intriguing in seeing how the gender pay gap has changed over time, if at all.
+>>>>>>> 7e11afbe48399bcdc8d4f3f9c18a2c7c0fec7a08
 =======
 From the p-values we obtained from our hypothesis testing and using a threshold value of 0.05, we reject the null hypothesis that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables.
 By rejecting the null, we are concluding that— while not necessarily a causal relationship– there *is* a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages.
