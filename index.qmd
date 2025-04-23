@@ -88,7 +88,7 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
-In order to begin exploring the data, we created the following three visualizations to understand the distribution of wage inequality across job categories, the proportion of male-majority workforces in each job category, and how the variation in how much women are paid compared with men. 
+In order to begin exploring the data, we created the following three visualizations to understand the distribution of wage inequality across job categories, the proportion of male-majority workforces in each job category, and the variation in how much women are paid compared with men. 
 
 Based on Figure 1, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of all job categories. We also learned that computer, engineering, and science professions have the smallest spread in wage inequality.
 
@@ -440,7 +440,7 @@ set.seed(1234)
 null_dist <- jobs_gender |>
   specify(wage_percent_of_male ~ percent_female * major_category) |>
   hypothesize(null = "independence") |>
-  generate(reps = 10, type = "permute") |>
+  generate(reps = 1000, type = "permute") |>
   fit()
 
 null_dist_p_vals <- null_dist |>
