@@ -1,6 +1,6 @@
 ---
-title: Differences in the Gender Pay Gap Across Male and Female-Dominated Workforces
-subtitle: 2013-2016 trends in job category and female workforce representation
+title: Differences in the Gender Pay Gap Across Job Categories and Female Workforce Representation
+subtitle: 2013-2016 trends in female wages as a percent of male wages
 execute:
   echo: false
   message: false
@@ -18,19 +18,19 @@ The closing of this wage gap is slow-moving, and strides towards resolution and 
 Some studies estimate that it can take anywhere between 63 to 134 years for women to earn as much as men for the same job (Holder 2025, The Gender).
 Not only are these discrepancies unfair in the short term, but they also impact working women post-retirement: when paid less, women end up receiving less in Social Security and pensions and up to 30% less than men in retirement funds for the same job and number of years worked (The Simple).
 With the government’s recent changes to DEI policies, understanding workplace wage equality (or lack thereof) from a statistical perspective has never been more crucial to making strides in a progressive, educated direction.
-Thus, our research aims to explore how gender pay gaps vary by percentages of female representation in the workforce, and by specific major job categories (such as the Management, Business, and Financial sector).
+Thus, our research aims to explore how gender pay gaps vary by female representation in the workforce and specific major job categories (such as the Management, Business, and Financial sector).
 
-Our research question asks, **to what extent does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?**
+Our research question asks, **how does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?**
 
 We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`).
-To clarify-- if women make 90 cents for every 1 dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90.
+To clarify-- if women make 90 cents for every dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90.
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
 Census.
 There are 2089 observations total, with 12 columns.
 Each observation is a different combination of the year observed and occupation (i.e., “2013” and “Legislators” is one row/observation, and there are four rows of "Legislators" across all years).
-301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year.
+301 occupations are shown throughout the 4 years, and 22 occupations are not represented in every year. We will refer to observations as "workforces" to maintain clarity in this paper.
 Considering that this data was scrubbed of any identifying factors aside from gender and was made public by the U.S.
 Bureau of Labor Statistics, there are no ethical concerns with the data itself.
 
@@ -88,12 +88,9 @@ jobs_gender <- jobs_gender |>
     )
 ```
 
-In order to begin exploring the data, we created the following three visualizations to understand which career categories show the most wage inequality, how gender representation varies by wage category, and how the variation in how much women are paid compared to men is shown.
+In order to begin exploring the data, we created the following three visualizations to understand the distribution of wage inequality across job categories, the proportion of male-majority workforces in each job category, and how the variation in how much women are paid compared with men. 
 
-The following plot visualizes the distribution of female wages as a percentage of male wages according to major job categories.
-
-Based on the following visualization, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of observations, and are often considered outliers.
-We also learned that computer, engineering, and science professions have the least versatility in wage inequality.
+Based on Figure 1, we observed that all observations where women are paid equally or more than men are outside of the 75th percentile of all job categories. We also learned that computer, engineering, and science professions have the smallest spread in wage inequality.
 
 ```{r}
 #| label: boxplot-wage-percentage-male
@@ -116,9 +113,9 @@ Distribution of female wages as percent of male wages",
   axis.text.y = element_blank())
 ```
 
-Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers, and `male_dom_earnings` labels observations with "Yes" when the total male earnings are greater than the total female earnings and "No" when there are higher female earnings.
-The following table demonstrates that, regardless of year, the amount of occupations showing male-dominated earnings in this study remains around 300, and that occupations with female-dominated earnings, while showing a slight increase over time, are still under 11.
-Therefore, we do not put emphasis on year in this study as numbers remain fairly consistent.
+Male-dominated fields will be specified through the creation of two binary variables: `male_dom_workforce` labels observations with "Male majority" when the number of male workers is greater than the number of female workers and "Female majority" when there are more female workers, and `male_dom_earnings` labels observations with "Yes" when the median male earnings are greater than the median female earnings and "No" when there are higher female earnings.
+The following table demonstrates that, regardless of year, the amount of workforces showing male-dominated earnings in this study remains around 300, and that occupations with female-dominated earnings, while showing a slight increase over time, are still under 11.
+Therefore, we do not put emphasis on year in this study as numbers remain fairly constant.
 
 *Table 1*
 
@@ -161,8 +158,7 @@ ggplot(jobs_gender_plot, aes(x = major_category, fill = male_dom_workforce)) +
   geom_hline(yintercept = 0.5, linetype = "dashed", color = "black") +
   labs(
     title = "Figure 2: 
-Male-dominated workforces",
-    subtitle = "based on job categories",
+Proportion of male-majority workforces across job categories",
     x = "Major job category",
     y = "Proportion of all observations",
     fill = "Workforce type"
@@ -202,7 +198,6 @@ eda_wage_gap <- jobs_gender |>
     median_wage_gap = median(wage_percent_of_male),
     sd_wage_gap = sd(wage_percent_of_male)
     )
-kableExtra::kable(eda_wage_gap)
 ```
 
 We hypothesize that greater representation of females in the workforce will be correlated with higher female wages as a percent of male wages independent of and across all job categories.
