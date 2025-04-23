@@ -23,7 +23,7 @@ Thus, our research aims to explore how gender pay gaps vary by female representa
 Our research question asks, **how does the gender pay gap vary between male-dominated and female-dominated workforces and across major job categories?**
 
 We will primarily consider the variables of female wages as a percent of male wages (`wage_percent_of_male`), major job category (`major_category`), and percentage of females in the workforce (`percent_female`).
-To clarify-- if women make 90 cents for every dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90.
+To clarify-- if women make 90 cents for every dollar men make doing the same job, then `wage_percent_of_female` will equal 0.90. This is also known as the wage gap.
 
 All data was collected between 2013 and 2016 from statistics provided by the U.S.
 Bureau of Labor through the U.S.
@@ -208,7 +208,7 @@ More specifically, we predict the job categories with the highest proportion of 
 We chose to do an exploratory analysis first to better understand the relationships between variables.
 Figure 1 displays the distributions of female wages as a percent of male wages across major job categories, suggesting the type of job could be a useful predictor of wage gaps due to the great variation in median and 25th to 75th quartiles.
 Figure 2 highlighted our job categories of interest for our hypotheses: "Computer, Engineering, and Science", "Natural Resources, Construction, and Maintenance", and "Production, Transportation, and Material Moving".
-Figure 3 displays our response variable of interest.
+Figure 3 displays our response variable of interest, female wages as a percent of male wages. We did not choose to use `year` as a variable because Table 1 did not indicate that it could be a promising predictor.
 
 We chose to create three models to predict female wages as a percentage of male wages based on `major_category` and `percent_female`.
 We chose to do linear models because our response variable is numerical and we have numerical and categorical predictor variables.
@@ -217,10 +217,8 @@ Our first model is a simple linear regression model that predicts the female wag
 Our second model is an additive linear model which uses the predictors the percentage of the workforce that is female and the major job category.
 Our third model is an interaction model between the percentage of the workforce that is female and the major job category.
 Scatterplots visualize these relationships and the fitted lines.
-We did not choose to use `year` as a variable because Table 1 did not indicate that it could be a promising predictor.
 
-We then selected the model with the highest $Adjusted~R^2$ and performed a hypothesis test on it using 1000 reps.
-We thought hypothesis testing was appropriate to answer the question of whether greater representation of females in the workforce is correlated with higher female wages as a percent of male wages independent of and across all job categories as there are two competing claims: $H_0$ is that there is no relationship between the variables and $H_1$ is that there is a relationship between the variables.
+We then selected the model with the highest $Adjusted~R^2$ and performed a hypothesis test on it using 1000 slope estimates. Hypothesis testing was appropriate to answer the question of whether greater representation of females in the workforce is correlated with higher female wages as a percent of male wages independent of and across all job categories, as there are two competing claims. The null hypothesis is that there is no relationship between representation in the workforce, job category, and wage gap, and the alternative hypothesis is that there is a relationship between these variables.
 
 ## Results
 
