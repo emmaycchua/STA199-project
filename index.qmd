@@ -440,7 +440,7 @@ set.seed(1234)
 null_dist <- jobs_gender |>
   specify(wage_percent_of_male ~ percent_female * major_category) |>
   hypothesize(null = "independence") |>
-  generate(reps = 10, type = "permute") |>
+  generate(reps = 1000, type = "permute") |>
   fit()
 
 null_dist_p_vals <- null_dist |>
