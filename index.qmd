@@ -497,7 +497,6 @@ Overall, these impacts on reliability and validity are possible and unavoidable 
 In the future, we think analyzing the effects of confounding factors such as race, age, and whether or not individuals were full- or part-time workers could be interesting.
 Gender may not be the only variable with discrepancies in pay, and it would be interesting to see how other demographic data impacts results.
 Further, we also think analyzing a more longitudinal dataset (i.e., from 2013 to present, 2025) could be intriguing in seeing how the gender pay gap has changed over time, if at all.
->>>>>>> 3516905c4550f6aae4ace89e9a4f9606991085c8
 
 ## References
 
