@@ -238,8 +238,8 @@ ggplot(jobs_gender, aes(x = percent_female, y = wage_percent_of_male)) +
   labs(
     title = "Figure 4: 
 Wage inequality vs. gender representation in the workforce",
-    x = "% of workforce that is female",
-    y = "Female wages as % of male wages",
+    x = "Percent of workforce that is female",
+    y = "Female wages as percent of male wages",
   ) +
   theme_minimal()
 ```
@@ -256,7 +256,7 @@ simple_linear_fit <- linear_reg() |>
 
 $$\widehat{wage~percent~of~male} = 0.821 + 0.043 \times percent~female~workforce$$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers will be 82.1%, on average.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers will be 82.1%, on average. In this context, the intercept is not meaningful because a gender wage gap cannot exist in a workforce with no female workers.
 For every additional percentage point in percent of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 4.3 percentage points.
 
 **Model 2**
@@ -310,16 +310,16 @@ $$
 \end{aligned}
 $$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is "Computer, Engineering, and Science" will be 85.3%, on average.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is "Computer, Engineering, and Science" will be 85.3%, on average. In this context, the intercept is not meaningful because a gender wage gap cannot exist in a workforce with no female workers.
 Holding all other variables constant, for every additional percentage point of female employees in the workforce, we expect the female wage as a percent of male wage to be higher, on average, by 5.3 percentage points.
 The intercept adjustments for non-baseline major job categories are given above.
-Holding all other variables constant, we expect an observation within the major job category of "Education, Legal, Community Service, Arts, and Media" to have a female wage as a percent of male wage that is lower, on average, by 2.0 percentage points.
+Holding all other variables constant, we expect an observation within the major job category of "Natural Resources, Construction, and Maintenance" to have a female wage as a percent of male wage that is lower, on average, by 0.4 percentage points.
 
 **Model 3**
 
 Considering the distribution of the percent of females in the workforce (see Figure 2) also varies based on the major job category, it is important to consider the interaction between these predictor variables.
 Figure 6 depicts this interaction linear model.
-The visual from this model helps visualize wage differences in male versus female dominated fields because each line has a different slope, with some going in the negative direction and others in the positive.
+The visual from this model displays the wage gap differences with respect to percentage of females in the workforce and their interaction with job categories. Each line has a different slope, with some going in the negative direction and others in the positive, indicating the direction of the relationship of that job category with the wage gap based on percentage of females in the workforce.
 
 ```{r}
 #| label: scatterplot-interaction-lienar-model
@@ -374,17 +374,18 @@ $$
 \end{aligned}
 $$
 
-Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is "Computer, Engineering, and Science" will be 90.9%, on average.
-This makes sense, given the well-known disparities in women's wages in STEM fields.
-Holding all other variables constant, for every additional percentage point of female employees in a "Computer, Engineering, and Science" category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points.
-This intercept is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
-The intercept and slope adjustments for non-baseline major job categories are given above.
+Based on the linear model above, we predict that female employee wages as a percent of male wages when there are no female workers and the job category is "Computer, Engineering, and Science" will be 90.9%, on average. In this context, the intercept is not meaningful because a gender wage gap cannot exist in a workforce with no female workers.
+Holding all other variables constant, for every additional percentage point of female employees in a "Computer, Engineering, and Science" category workforce, we expect the female wage as a percent of male wage to be lower, on average, by 13.8 percentage points. This finding is inconsistent with our prediction that workforces with higher female representation will have higher female wages as a percent of male wages.
 
-For our three male-majority job categories of interest, we have written the simplified equations below.
+The intercept and slope adjustments for non-baseline major job categories are given above. For our three male-majority job categories of interest, we have written the simplified equations below.
 
-The intercept and slope adjustments for non-baseline major job categories are given above.For our three male-majority job categories of interest, we have written the simplified equations below.
-
-Computer, Engineering, and Science: $$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$ Natural Resources, Construction, and Maintenance: $$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$ Production, Transportation, and Material Moving: $$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
+Computer, Engineering, and Science: 
+$$\widehat{wage~percent~of~male} = 0.909 -0.138 \times percent~female~workforce$$
+Natural Resources, Construction, and Maintenance: 
+$$\widehat{wage~percent~of~male} = 0.861 -0.063 \times percent~female~workforce$$ 
+Production, Transportation, and Material Moving: 
+$$\widehat{wage~percent~of~male} = 0.796 -0.01 \times percent~female~workforce$$
+Given these equations, our hypothesis that these male-majority specific job categories will have negative relationships with female wages as a percent of male wages is supported, regardless of the percent of females in the workforce.
 
 **Selection of Linear Model**
 
@@ -422,7 +423,7 @@ Because the $Adjusted~R^2$ of the interaction model is the highest, we have deci
 Our null hypothesis, $H_0$, is that female wage as a percent of male wage is independent of both the percent of females in the workforce, the major job category, and the interaction between these predictor variables.
 Our alternative hypothesis, $H_1$, is that there is a relationship between percent of females in the workforce, the major job category, and female wages as a percent of male wages.
 
-The p-value is 0, which means that we should reject the null hypothesis; based off our analysis, assuming the null hypothesis is true, the probability of observing what we did is 0.
+We discuss the significance of the p-values of interest to our hypotheses in the Discussion section below.
 
 ```{r}
 #| label: hypothesis-testing
