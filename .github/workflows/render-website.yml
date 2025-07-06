@@ -1,0 +1,17 @@
+name: Render Website
+
+on:
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Render step
+        run: |
+          echo "Rendering website..."
+          # Put your real rendering commands here
